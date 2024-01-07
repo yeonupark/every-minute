@@ -14,6 +14,8 @@
 		48896FF12B495D7A000C371F /* MessengerProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48896FF02B495D7A000C371F /* MessengerProjectTests.swift */; };
 		48896FFB2B495D7A000C371F /* MessengerProjectUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48896FFA2B495D7A000C371F /* MessengerProjectUITests.swift */; };
 		48896FFD2B495D7A000C371F /* MessengerProjectUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48896FFC2B495D7A000C371F /* MessengerProjectUITestsLaunchTests.swift */; };
+		4889700B2B4AB07B000C371F /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4889700A2B4AB07B000C371F /* OnboardingView.swift */; };
+		488970102B4AB794000C371F /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4889700F2B4AB794000C371F /* Constant.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +46,8 @@
 		48896FF62B495D7A000C371F /* MessengerProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MessengerProjectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		48896FFA2B495D7A000C371F /* MessengerProjectUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerProjectUITests.swift; sourceTree = "<group>"; };
 		48896FFC2B495D7A000C371F /* MessengerProjectUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerProjectUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		4889700A2B4AB07B000C371F /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		4889700F2B4AB794000C371F /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +98,8 @@
 		48896FDE2B495D79000C371F /* MessengerProject */ = {
 			isa = PBXGroup;
 			children = (
+				4889700C2B4AB6B7000C371F /* Base */,
+				488970092B4AAEA9000C371F /* Join */,
 				48896FDF2B495D79000C371F /* MessengerProjectApp.swift */,
 				48896FE12B495D79000C371F /* ContentView.swift */,
 				48896FE32B495D7A000C371F /* Assets.xcassets */,
@@ -125,6 +131,22 @@
 				48896FFC2B495D7A000C371F /* MessengerProjectUITestsLaunchTests.swift */,
 			);
 			path = MessengerProjectUITests;
+			sourceTree = "<group>";
+		};
+		488970092B4AAEA9000C371F /* Join */ = {
+			isa = PBXGroup;
+			children = (
+				4889700A2B4AB07B000C371F /* OnboardingView.swift */,
+			);
+			path = Join;
+			sourceTree = "<group>";
+		};
+		4889700C2B4AB6B7000C371F /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				4889700F2B4AB794000C371F /* Constant.swift */,
+			);
+			path = Base;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,7 +279,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4889700B2B4AB07B000C371F /* OnboardingView.swift in Sources */,
 				48896FE22B495D79000C371F /* ContentView.swift in Sources */,
+				488970102B4AB794000C371F /* Constant.swift in Sources */,
 				48896FE02B495D79000C371F /* MessengerProjectApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
