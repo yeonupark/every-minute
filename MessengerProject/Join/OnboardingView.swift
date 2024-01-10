@@ -10,6 +10,7 @@ import SwiftUI
 struct OnboardingView: View {
     
     @State var isShowingBottomSheet = false
+    @State var isShowingSignUpView = false
     
     var body: some View {
         
@@ -28,6 +29,7 @@ struct OnboardingView: View {
             Button(action: {
                 withAnimation {
                     isShowingBottomSheet.toggle()
+                    isShowingSignUpView = false
                 }
             }, label: {
                 Image(.startButton).resizable().aspectRatio(contentMode: .fit)
@@ -35,31 +37,24 @@ struct OnboardingView: View {
                     .padding(EdgeInsets(top: 153, leading: 24, bottom: 24, trailing: 24))
             })
             .sheet(isPresented: $isShowingBottomSheet, content: {
-                BottomSheetType.login.view()
-                    .presentationCornerRadius(20)
-                    .presentationDetents([.height(290)])
-                    .presentationDragIndicator(.visible)
+                if isShowingSignUpView {
+                    SignUpView()
+                        .presentationDragIndicator(.visible)
+                } else {
+                    loginSelectionView(isShowingSignUpView: $isShowingSignUpView)
+                        .presentationCornerRadius(20)
+                        .presentationDetents([.height(290)])
+                        .presentationDragIndicator(.visible)
+                }
             })
             
         }
     }
 }
 
-enum BottomSheetType: Int {
-    case login
-    case join
+struct loginSelectionView: View {
     
-    func view() -> AnyView {
-        switch self {
-        case .login:
-            return AnyView(loginBottomSheet())
-        case .join:
-            return AnyView(loginBottomSheet())
-        }
-    }
-}
-
-struct loginBottomSheet: View {
+    @Binding var isShowingSignUpView: Bool
     
     var body: some View {
         
@@ -89,7 +84,7 @@ struct loginBottomSheet: View {
                 Text("또는")
                     .foregroundColor(ColorSet.Brand.black)
                 Button(action: {
-                    print("회원가입")
+                    isShowingSignUpView = true
                 }, label: {
                     Text("새롭게 회원가입 하기")
                         .foregroundColor(ColorSet.Brand.green)

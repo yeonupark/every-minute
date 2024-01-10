@@ -95,7 +95,7 @@ struct EmailField: View {
                         .fill(Color.white)
                         .frame(width: 233, height: 44)
                     TextField(placeholder, text: $input)
-                    .fontWithLineHeight(font: Typography.caption.font, lineHeight: Typography.caption.lineHeight)
+                    .fontWithLineHeight(font: Typography.bodyRegular.font, lineHeight: Typography.bodyRegular.lineHeight)
                     .textFieldStyle(.plain)
                     .frame(width: 223, height: 44)
                 }

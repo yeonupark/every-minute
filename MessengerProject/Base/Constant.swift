@@ -44,7 +44,7 @@ enum Typography {
     static let title1 = FontSet(font: UIFont.systemFont(ofSize: 22, weight: .bold), lineHeight: 30)
     static let title2 = FontSet(font: UIFont.systemFont(ofSize: 14, weight: .bold), lineHeight: 20)
     static let bodyBold = FontSet(font: UIFont.systemFont(ofSize: 13, weight: .bold), lineHeight: 18)
-    static let body = FontSet(font: UIFont.systemFont(ofSize: 13, weight: .regular), lineHeight: 18)
+    static let bodyRegular = FontSet(font: UIFont.systemFont(ofSize: 13, weight: .regular), lineHeight: 18)
     static let caption = FontSet(font: UIFont.systemFont(ofSize: 12, weight: .regular), lineHeight: 18)
 }
 
