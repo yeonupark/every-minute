@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SignUpView: View {
     
+    @Binding var isShowingBottomSheet: Bool
+    
     @State var email: String = ""
     @State var nickname: String = ""
     @State var phoneNumber: String = ""
@@ -42,15 +44,15 @@ struct SignUpView: View {
             }
             .navigationTitle("회원가입")
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(leading: closeBarButton())
+            .navigationBarItems(leading: closeBarButton(isShowingBottomSheet: $isShowingBottomSheet))
             
         }
     }
 }
 
-#Preview {
-    SignUpView()
-}
+//#Preview {
+//    SignUpView()
+//}
 
 struct InputField: View {
     
@@ -113,9 +115,12 @@ struct EmailField: View {
 }
 
 struct closeBarButton: View {
+    
+    @Binding var isShowingBottomSheet: Bool
+    
     var body: some View {
         Button(action: {
-            print("엑스")
+            isShowingBottomSheet = false
         }, label: {
             Image(.closeIcon)
                 .resizable()

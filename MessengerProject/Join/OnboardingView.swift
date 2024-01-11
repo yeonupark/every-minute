@@ -38,7 +38,7 @@ struct OnboardingView: View {
             })
             .sheet(isPresented: $isShowingBottomSheet, content: {
                 if isShowingSignUpView {
-                    SignUpView()
+                    SignUpView(isShowingBottomSheet: $isShowingBottomSheet)
                         .presentationDragIndicator(.visible)
                 } else {
                     loginSelectionView(isShowingSignUpView: $isShowingSignUpView)

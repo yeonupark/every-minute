@@ -17,6 +17,9 @@
 		4889700B2B4AB07B000C371F /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4889700A2B4AB07B000C371F /* OnboardingView.swift */; };
 		488970102B4AB794000C371F /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4889700F2B4AB794000C371F /* Constant.swift */; };
 		488970122B4C5A48000C371F /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488970112B4C5A48000C371F /* SignUpView.swift */; };
+		48A81A292B4FD1D00004681B /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A81A282B4FD1D00004681B /* SignUpViewModel.swift */; };
+		48A81A2B2B4FD52E0004681B /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 48A81A2A2B4FD52E0004681B /* .gitignore */; };
+		48A81A2D2B4FD5730004681B /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A81A2C2B4FD5730004681B /* APIKeys.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +53,9 @@
 		4889700A2B4AB07B000C371F /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		4889700F2B4AB794000C371F /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		488970112B4C5A48000C371F /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		48A81A282B4FD1D00004681B /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
+		48A81A2A2B4FD52E0004681B /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		48A81A2C2B4FD5730004681B /* APIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +112,8 @@
 				48896FE12B495D79000C371F /* ContentView.swift */,
 				48896FE32B495D7A000C371F /* Assets.xcassets */,
 				48896FE52B495D7A000C371F /* Preview Content */,
+				48A81A2A2B4FD52E0004681B /* .gitignore */,
+				48A81A2C2B4FD5730004681B /* APIKeys.swift */,
 			);
 			path = MessengerProject;
 			sourceTree = "<group>";
@@ -140,6 +148,7 @@
 			children = (
 				4889700A2B4AB07B000C371F /* OnboardingView.swift */,
 				488970112B4C5A48000C371F /* SignUpView.swift */,
+				48A81A282B4FD1D00004681B /* SignUpViewModel.swift */,
 			);
 			path = Join;
 			sourceTree = "<group>";
@@ -257,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				48896FE72B495D7A000C371F /* Preview Assets.xcassets in Resources */,
+				48A81A2B2B4FD52E0004681B /* .gitignore in Resources */,
 				48896FE42B495D7A000C371F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -284,8 +294,10 @@
 			files = (
 				4889700B2B4AB07B000C371F /* OnboardingView.swift in Sources */,
 				488970122B4C5A48000C371F /* SignUpView.swift in Sources */,
+				48A81A2D2B4FD5730004681B /* APIKeys.swift in Sources */,
 				48896FE22B495D79000C371F /* ContentView.swift in Sources */,
 				488970102B4AB794000C371F /* Constant.swift in Sources */,
+				48A81A292B4FD1D00004681B /* SignUpViewModel.swift in Sources */,
 				48896FE02B495D79000C371F /* MessengerProjectApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
