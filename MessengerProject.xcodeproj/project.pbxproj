@@ -106,6 +106,7 @@
 		48896FDE2B495D79000C371F /* MessengerProject */ = {
 			isa = PBXGroup;
 			children = (
+				48A81A2E2B4FD7780004681B /* Network */,
 				4889700C2B4AB6B7000C371F /* Base */,
 				488970092B4AAEA9000C371F /* Join */,
 				48896FDF2B495D79000C371F /* MessengerProjectApp.swift */,
@@ -113,7 +114,6 @@
 				48896FE32B495D7A000C371F /* Assets.xcassets */,
 				48896FE52B495D7A000C371F /* Preview Content */,
 				48A81A2A2B4FD52E0004681B /* .gitignore */,
-				48A81A2C2B4FD5730004681B /* APIKeys.swift */,
 			);
 			path = MessengerProject;
 			sourceTree = "<group>";
@@ -159,6 +159,14 @@
 				4889700F2B4AB794000C371F /* Constant.swift */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		48A81A2E2B4FD7780004681B /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				48A81A2C2B4FD5730004681B /* APIKeys.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
