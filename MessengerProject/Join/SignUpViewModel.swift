@@ -6,50 +6,52 @@
 //
 
 import Combine
-import SwiftUI
+import Foundation
 
 class SignUpViewModel: ObservableObject {
     
-    var email = CurrentValueSubject<String, Error>("")
-    var nickname = CurrentValueSubject<String, Error>("")
-    var phoneNumber = CurrentValueSubject<String, Error>("")
-    var password = CurrentValueSubject<String, Error>("")
-    var passwordRepeat = CurrentValueSubject<String, Error>("")
-    var deviceToken = CurrentValueSubject<String, Error>("")
+    @Published var email = ""
+    @Published var nickname = ""
+    @Published var phoneNumber = ""
+    @Published var password = ""
+    @Published var passwordRepeat = ""
+    @Published var deviceToken = ""
     
-    var signUpButtonImage = CurrentValueSubject<Image, Error>(Image(.joinButton))
+    @Published var isValidLoginForm = false
+    
+    private var cancellables = Set<AnyCancellable>()
     
     init() {
-        fieldCheck()
+        //fieldCheck()
     }
     
     func fieldCheck() {
         
-        var cancellables: Set<AnyCancellable> = []
-        
-        var validation: AnyPublisher<Bool, Error> {
-                return Publishers.CombineLatest4(email, nickname, password, passwordRepeat)
-                    .map { email, nick, pw, pw2 in
-                        if email.isEmpty || nick.isEmpty || (pw != pw2) {
-                            return false
-                        }
-                        return true
-                    }
-                    .eraseToAnyPublisher()
-            }
-
-        validation
-                .map { isValid in
-                    isValid ? Image(.joinButtonEnabled) : Image(.joinButton)
+        var isEmailValidPublisher: AnyPublisher<Bool, Never> {
+            $email
+                .map { email in
+                    print(email)
+                    return !email.isEmpty
                 }
-                .receive(on: DispatchQueue.main)
-                .sink(receiveCompletion: { completion in
-                        // 에러 처리를 추가할 수 있음
-                        // completion에는 성공 또는 에러가 포함됨
-                    }, receiveValue: { [weak self] image in
-                        self?.signUpButtonImage.send(image)
-                    })
-                .store(in: &cancellables)
+                .eraseToAnyPublisher()
+            
+        }
         
+        var isPasswordValidPublisher: AnyPublisher<Bool, Never> {
+            Publishers.CombineLatest3($nickname, $password, $passwordRepeat)
+                .map { (nick, pw, pw2) in
+                    return (pw == pw2) && !nick.isEmpty && !pw.isEmpty
+                }
+                .eraseToAnyPublisher()
+        }
+        
+        Publishers.CombineLatest(isEmailValidPublisher, isPasswordValidPublisher)
+            .map { emailValid, pwValid in
+                return emailValid && pwValid
+            }
+            .eraseToAnyPublisher()
+            .receive(on: RunLoop.main)
+            .assign(to: \.isValidLoginForm, on: self)
+            .store(in: &cancellables)
     }
 }

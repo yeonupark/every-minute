@@ -13,12 +13,6 @@ struct SignUpView: View {
     
     @Binding var isShowingBottomSheet: Bool
     
-    //@State var email: String = ""
-//    @State var nickname: String = ""
-//    @State var phoneNumber: String = ""
-//    @State var password: String = ""
-//    @State var passwordRepeat: String = ""
-    
     var body: some View {
         
         NavigationView {
@@ -26,29 +20,32 @@ struct SignUpView: View {
                 ColorSet.Background.primary
                 VStack(alignment: .center, spacing: 24) {
                     
-                    EmailField(label: "이메일", placeholder: "이메일을 입력하세요", input: $viewModel.email.value)
+                    EmailField(label: "이메일", placeholder: "이메일을 입력하세요", input: $viewModel.email)
                         .padding(.top, 24)
-                    InputField(label: "닉네임", placeholder: "닉네임을 입력하세요", input: $viewModel.nickname.value)
-                    InputField(label: "연락처", placeholder: "전화번호를 입력하세요", input: $viewModel.phoneNumber.value)
-                    InputField(label: "비밀번호", placeholder: "비밀번호를 입력하세요", input: $viewModel.password.value)
-                    InputField(label: "비밀번호 확인", placeholder: "비밀번호를 한 번 더 입력하세요", input: $viewModel.passwordRepeat.value)
-                    
+                    InputField(label: "닉네임", placeholder: "닉네임을 입력하세요", input: $viewModel.nickname)
+                    InputField(label: "연락처", placeholder: "전화번호를 입력하세요", input: $viewModel.phoneNumber)
+                    InputField(label: "비밀번호", placeholder: "비밀번호를 입력하세요", input: $viewModel.password)
+                    InputField(label: "비밀번호 확인", placeholder: "비밀번호를 한 번 더 입력하세요", input: $viewModel.passwordRepeat)
                     Spacer()
                     
                     Button(action: {
-                        print(viewModel.email.value)
+                        viewModel.fieldCheck()
                         print("가입하기")
                     }, label: {
-                        //Image(.joinButton)
-                        viewModel.signUpButtonImage.value
+                        let image = viewModel.isValidLoginForm ? Image(.joinButtonEnabled) : Image(.joinButton)
+                        image
                             .resizable()
                             .frame(width: 345, height: 44)
                     })
                 }
             }
+            
             .navigationTitle("회원가입")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(leading: closeBarButton(isShowingBottomSheet: $isShowingBottomSheet))
+        }
+        .onAppear {
+            viewModel.fieldCheck()
         }
     }
 }
