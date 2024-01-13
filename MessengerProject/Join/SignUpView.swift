@@ -20,7 +20,7 @@ struct SignUpView: View {
                 ColorSet.Background.primary
                 VStack(alignment: .center, spacing: 24) {
                     
-                    EmailField(label: "이메일", placeholder: "이메일을 입력하세요", input: $viewModel.email)
+                    EmailField(label: "이메일", placeholder: "이메일을 입력하세요", input: $viewModel.email, viewModel: viewModel)
                         .padding(.top, 24)
                     InputField(label: "닉네임", placeholder: "닉네임을 입력하세요", input: $viewModel.nickname)
                     InputField(label: "연락처", placeholder: "전화번호를 입력하세요", input: $viewModel.phoneNumber)
@@ -81,6 +81,7 @@ struct EmailField: View {
     let placeholder: String
     
     @Binding var input: String
+    @ObservedObject var viewModel: SignUpViewModel
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -98,7 +99,9 @@ struct EmailField: View {
                     .frame(width: 223, height: 44)
                 }
                 Button(action: {
-                    
+                    viewModel.callEmailValidation(email: viewModel.email) { result in
+                        viewModel.isValidEmail = result
+                    }
                 }, label: {
                     Image(.emailButton)
                         .resizable()

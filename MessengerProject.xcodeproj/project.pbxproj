@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4880403E2B52750D001071AE /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 4880403D2B52750D001071AE /* CombineMoya */; };
+		488040402B52750D001071AE /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 4880403F2B52750D001071AE /* Moya */; };
+		488040422B527710001071AE /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488040412B527710001071AE /* API.swift */; };
+		488040442B527858001071AE /* APIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488040432B527858001071AE /* APIModel.swift */; };
 		48896FE02B495D79000C371F /* MessengerProjectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48896FDF2B495D79000C371F /* MessengerProjectApp.swift */; };
 		48896FE22B495D79000C371F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48896FE12B495D79000C371F /* ContentView.swift */; };
 		48896FE42B495D7A000C371F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48896FE32B495D7A000C371F /* Assets.xcassets */; };
@@ -40,6 +44,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		488040412B527710001071AE /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		488040432B527858001071AE /* APIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIModel.swift; sourceTree = "<group>"; };
+		488040452B528042001071AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		48896FDC2B495D79000C371F /* MessengerProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MessengerProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48896FDF2B495D79000C371F /* MessengerProjectApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerProjectApp.swift; sourceTree = "<group>"; };
 		48896FE12B495D79000C371F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -63,6 +70,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				488040402B52750D001071AE /* Moya in Frameworks */,
+				4880403E2B52750D001071AE /* CombineMoya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,6 +115,7 @@
 		48896FDE2B495D79000C371F /* MessengerProject */ = {
 			isa = PBXGroup;
 			children = (
+				488040452B528042001071AE /* Info.plist */,
 				48A81A2E2B4FD7780004681B /* Network */,
 				4889700C2B4AB6B7000C371F /* Base */,
 				488970092B4AAEA9000C371F /* Join */,
@@ -165,6 +175,8 @@
 			isa = PBXGroup;
 			children = (
 				48A81A2C2B4FD5730004681B /* APIKeys.swift */,
+				488040412B527710001071AE /* API.swift */,
+				488040432B527858001071AE /* APIModel.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -185,6 +197,10 @@
 			dependencies = (
 			);
 			name = MessengerProject;
+			packageProductDependencies = (
+				4880403D2B52750D001071AE /* CombineMoya */,
+				4880403F2B52750D001071AE /* Moya */,
+			);
 			productName = MessengerProject;
 			productReference = 48896FDC2B495D79000C371F /* MessengerProject.app */;
 			productType = "com.apple.product-type.application";
@@ -257,6 +273,9 @@
 				Base,
 			);
 			mainGroup = 48896FD32B495D79000C371F;
+			packageReferences = (
+				4880403C2B52750D001071AE /* XCRemoteSwiftPackageReference "Moya" */,
+			);
 			productRefGroup = 48896FDD2B495D79000C371F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -301,11 +320,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				4889700B2B4AB07B000C371F /* OnboardingView.swift in Sources */,
+				488040442B527858001071AE /* APIModel.swift in Sources */,
 				488970122B4C5A48000C371F /* SignUpView.swift in Sources */,
 				48A81A2D2B4FD5730004681B /* APIKeys.swift in Sources */,
 				48896FE22B495D79000C371F /* ContentView.swift in Sources */,
 				488970102B4AB794000C371F /* Constant.swift in Sources */,
 				48A81A292B4FD1D00004681B /* SignUpViewModel.swift in Sources */,
+				488040422B527710001071AE /* API.swift in Sources */,
 				48896FE02B495D79000C371F /* MessengerProjectApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -473,6 +494,7 @@
 				DEVELOPMENT_TEAM = A8NKCBCXX2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MessengerProject/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -502,6 +524,7 @@
 				DEVELOPMENT_TEAM = A8NKCBCXX2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MessengerProject/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -636,6 +659,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4880403C2B52750D001071AE /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4880403D2B52750D001071AE /* CombineMoya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4880403C2B52750D001071AE /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = CombineMoya;
+		};
+		4880403F2B52750D001071AE /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4880403C2B52750D001071AE /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 48896FD42B495D79000C371F /* Project object */;
 }
