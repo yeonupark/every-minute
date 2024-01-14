@@ -82,4 +82,20 @@ class SignUpViewModel: ObservableObject {
         }
         
     }
+    
+    func callJoinRequest(join: JoinModel) {
+        provider.request(.join(join: join)) { result in
+            switch result {
+            case .success(let response):
+                if (200..<300).contains(response.statusCode) {
+                    print("join success - ", response.statusCode, response.data)
+                    
+                } else if (400..<501).contains(response.statusCode) {
+                    print("join failure - ", response.statusCode, response.data)
+                }
+            case .failure(let error):
+                print("join Error - ", error)
+            }
+        }
+    }
 }

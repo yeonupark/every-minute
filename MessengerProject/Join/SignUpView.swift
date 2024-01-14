@@ -29,8 +29,9 @@ struct SignUpView: View {
                     Spacer()
                     
                     Button(action: {
-                        viewModel.fieldCheck()
-                        print("가입하기")
+                        let signUpInfo = JoinModel(email: viewModel.email, nickname: viewModel.nickname, password: viewModel.password, phone: viewModel.phoneNumber, deviceToken: nil)
+                        print(signUpInfo)
+                        viewModel.callJoinRequest(join: signUpInfo)
                     }, label: {
                         let image = viewModel.isValidLoginForm ? Image(.joinButtonEnabled) : Image(.joinButton)
                         image

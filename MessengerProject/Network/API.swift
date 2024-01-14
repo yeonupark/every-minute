@@ -10,13 +10,14 @@ import Moya
 
 enum MarAPI {
     case emailValidation(email: String)
+    case join(join: JoinModel)
 }
 
 extension MarAPI: Moya.TargetType {
     
     var baseURL: URL {
         switch self {
-        case .emailValidation:
+        case .emailValidation, .join:
             return URL(string: APIkeys.baseURL)!
         }
     }
@@ -25,12 +26,15 @@ extension MarAPI: Moya.TargetType {
         switch self {
         case .emailValidation:
             return "v1/users/validation/email"
+        case .join:
+            return "v1/users/join"
         }
+        
     }
     
     var method: Moya.Method {
         switch self {
-        case .emailValidation:
+        case .emailValidation, .join:
             return .post
         }
     }
@@ -38,13 +42,15 @@ extension MarAPI: Moya.TargetType {
     var task: Moya.Task {
         switch self {
         case .emailValidation(let email):
-            return .requestJSONEncodable(EmailValidation(email: email))
+            return .requestJSONEncodable(EmailModel(email: email))
+        case .join(let join):
+            return .requestJSONEncodable(join)
         }
     }
     
     var headers: [String : String]? {
         switch self {
-        case .emailValidation:
+        case .emailValidation, .join:
             ["Content-Type" : "application/json",
              "SesacKey" : APIkeys.sesacKey]
         }
