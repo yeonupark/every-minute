@@ -11,6 +11,7 @@ struct OnboardingView: View {
     
     @State var isShowingBottomSheet = false
     @State var isShowingSignUpView = false
+    @State var isShowingLoginView = false
     
     var body: some View {
         
@@ -30,6 +31,7 @@ struct OnboardingView: View {
                 withAnimation {
                     isShowingBottomSheet.toggle()
                     isShowingSignUpView = false
+                    isShowingLoginView = false
                 }
             }, label: {
                 Image(.startButton).resizable().aspectRatio(contentMode: .fit)
@@ -37,11 +39,15 @@ struct OnboardingView: View {
                     .padding(EdgeInsets(top: 153, leading: 24, bottom: 24, trailing: 24))
             })
             .sheet(isPresented: $isShowingBottomSheet, content: {
-                if isShowingSignUpView {
+                if isShowingLoginView {
+                    LoginView(isShowingLoginView: $isShowingLoginView)
+                        .presentationDragIndicator(.visible)
+                }
+                else if isShowingSignUpView {
                     SignUpView(isShowingBottomSheet: $isShowingBottomSheet)
                         .presentationDragIndicator(.visible)
                 } else {
-                    loginSelectionView(isShowingSignUpView: $isShowingSignUpView)
+                    loginSelectionView(isShowingSignUpView: $isShowingSignUpView, isShowingLoginView: $isShowingLoginView)
                         .presentationCornerRadius(20)
                         .presentationDetents([.height(290)])
                         .presentationDragIndicator(.visible)
@@ -55,6 +61,7 @@ struct OnboardingView: View {
 struct loginSelectionView: View {
     
     @Binding var isShowingSignUpView: Bool
+    @Binding var isShowingLoginView: Bool
     
     var body: some View {
         
@@ -75,7 +82,7 @@ struct loginSelectionView: View {
             })
             
             Button(action: {
-                print("이메일로그인")
+                isShowingLoginView = true
             }, label: {
                 LoginButtonImage(buttonImage: Image(.emailLogin), topPadding: 12)
             })

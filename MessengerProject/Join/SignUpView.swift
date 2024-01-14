@@ -29,9 +29,11 @@ struct SignUpView: View {
                     Spacer()
                     
                     Button(action: {
-                        let signUpInfo = JoinModel(email: viewModel.email, nickname: viewModel.nickname, password: viewModel.password, phone: viewModel.phoneNumber, deviceToken: nil)
-                        print(signUpInfo)
-                        viewModel.callJoinRequest(join: signUpInfo)
+                        viewModel.callJoinRequest { result in
+                            if result {
+                                isShowingBottomSheet = false
+                            }
+                        }
                     }, label: {
                         let image = viewModel.isValidLoginForm ? Image(.joinButtonEnabled) : Image(.joinButton)
                         image
@@ -104,7 +106,8 @@ struct EmailField: View {
                         viewModel.isValidEmail = result
                     }
                 }, label: {
-                    Image(.emailButton)
+                    let image = viewModel.isValidEmail ? Image(.emailButtonEnabled) : Image(.emailButton)
+                    image
                         .resizable()
                         .frame(width: 100, height: 44)
                 })

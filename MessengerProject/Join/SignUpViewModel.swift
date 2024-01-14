@@ -16,7 +16,6 @@ class SignUpViewModel: ObservableObject {
     @Published var phoneNumber = ""
     @Published var password = ""
     @Published var passwordRepeat = ""
-    @Published var deviceToken = ""
     
     @Published var isValidEmail = false
     @Published var isValidLoginForm = false
@@ -83,18 +82,35 @@ class SignUpViewModel: ObservableObject {
         
     }
     
-    func callJoinRequest(join: JoinModel) {
-        provider.request(.join(join: join)) { result in
+    func callJoinRequest(completionHandler: @escaping (Bool) -> Void) {
+        let model = JoinModel(email: email, nickname: nickname, password: password, phone: phoneNumber, deviceToken: UserDefaults.standard.string(forKey: "deviceToken"))
+        print(model)
+        provider.request(.join(join: model)) { result in
             switch result {
             case .success(let response):
                 if (200..<300).contains(response.statusCode) {
                     print("join success - ", response.statusCode, response.data)
                     
+                    do {
+                        let result = try JSONDecoder().decode(JoinResponse.self, from: response.data)
+                        print(result)
+                        UserDefaults.standard.set(result.token?.accessToken, forKey: "token")
+                        UserDefaults.standard.set(result.token?.refreshToken, forKey: "refreshToken")
+                        completionHandler(true)
+                    } catch {
+                        print("join decoding error")
+                        completionHandler(false)
+                    }
+                    
                 } else if (400..<501).contains(response.statusCode) {
                     print("join failure - ", response.statusCode, response.data)
+                    
+                    completionHandler(false)
                 }
             case .failure(let error):
                 print("join Error - ", error)
+                
+                completionHandler(false)
             }
         }
     }

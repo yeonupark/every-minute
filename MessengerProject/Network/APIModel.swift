@@ -26,7 +26,7 @@ struct JoinModel: Encodable {
 }
 
 struct JoinResponse: Decodable {
-    let user_id: String
+    let user_id: Int
     let email: String
     let nickname: String
     let profileImage: String?
@@ -37,6 +37,19 @@ struct JoinResponse: Decodable {
 }
 
 struct Token: Decodable {
+    let accessToken: String
+    let refreshToken: String
+}
+
+struct LoginModel: Encodable {
+    let email: String
+    let password: String
+    let deviceToken: String?
+}
+
+struct LoginResponse: Decodable {
+    let user_id: Int
+    let nickname: String
     let accessToken: String
     let refreshToken: String
 }
