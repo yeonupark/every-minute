@@ -49,6 +49,7 @@ class LoginViewModel: ObservableObject {
                         print(result)
                         UserDefaults.standard.set(result.accessToken, forKey: "token")
                         UserDefaults.standard.set(result.refreshToken, forKey: "refreshToken")
+                        UserDefaults.standard.set(result.nickname, forKey: "nickname")
                         completionHandler(true)
                     } catch {
                         print("login decoding error")

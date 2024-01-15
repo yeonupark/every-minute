@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		48460C1A2B53FF0F003406E0 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48460C192B53FF0F003406E0 /* LoginView.swift */; };
 		48460C1C2B540164003406E0 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48460C1B2B540164003406E0 /* LoginViewModel.swift */; };
+		48460C202B54E93E003406E0 /* WorkspaceInitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48460C1F2B54E93E003406E0 /* WorkspaceInitialView.swift */; };
 		4880403E2B52750D001071AE /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 4880403D2B52750D001071AE /* CombineMoya */; };
 		488040402B52750D001071AE /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 4880403F2B52750D001071AE /* Moya */; };
 		488040422B527710001071AE /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488040412B527710001071AE /* API.swift */; };
@@ -49,6 +50,7 @@
 		48460C192B53FF0F003406E0 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		48460C1B2B540164003406E0 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		48460C1D2B543289003406E0 /* MessengerProject.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MessengerProject.entitlements; sourceTree = "<group>"; };
+		48460C1F2B54E93E003406E0 /* WorkspaceInitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceInitialView.swift; sourceTree = "<group>"; };
 		488040412B527710001071AE /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		488040432B527858001071AE /* APIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIModel.swift; sourceTree = "<group>"; };
 		488040452B528042001071AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -106,6 +108,14 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		48460C1E2B54E921003406E0 /* Workspace */ = {
+			isa = PBXGroup;
+			children = (
+				48460C1F2B54E93E003406E0 /* WorkspaceInitialView.swift */,
+			);
+			path = Workspace;
+			sourceTree = "<group>";
+		};
 		48896FD32B495D79000C371F = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +139,7 @@
 		48896FDE2B495D79000C371F /* MessengerProject */ = {
 			isa = PBXGroup;
 			children = (
+				48460C1E2B54E921003406E0 /* Workspace */,
 				48460C1D2B543289003406E0 /* MessengerProject.entitlements */,
 				488040452B528042001071AE /* Info.plist */,
 				48A81A2E2B4FD7780004681B /* Network */,
@@ -344,6 +355,7 @@
 				488970102B4AB794000C371F /* Constant.swift in Sources */,
 				48A81A292B4FD1D00004681B /* SignUpViewModel.swift in Sources */,
 				488040422B527710001071AE /* API.swift in Sources */,
+				48460C202B54E93E003406E0 /* WorkspaceInitialView.swift in Sources */,
 				48460C1A2B53FF0F003406E0 /* LoginView.swift in Sources */,
 				48896FE02B495D79000C371F /* MessengerProjectApp.swift in Sources */,
 			);

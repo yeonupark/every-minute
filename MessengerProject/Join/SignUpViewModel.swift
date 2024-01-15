@@ -96,6 +96,7 @@ class SignUpViewModel: ObservableObject {
                         print(result)
                         UserDefaults.standard.set(result.token?.accessToken, forKey: "token")
                         UserDefaults.standard.set(result.token?.refreshToken, forKey: "refreshToken")
+                        UserDefaults.standard.set(result.nickname, forKey: "nickname")
                         completionHandler(true)
                     } catch {
                         print("join decoding error")
