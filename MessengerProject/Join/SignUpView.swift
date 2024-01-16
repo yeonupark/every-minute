@@ -44,6 +44,9 @@ struct SignUpView: View {
                     .fullScreenCover(isPresented: $isShowingWorkspace, content: {
                         WorkspaceInitialView()
                     })
+                    .fullScreenCover(isPresented: $isShowingWorkspace, content: {
+                        HomeView()
+                    })
                 }
             }
             .navigationTitle("회원가입")
@@ -105,9 +108,7 @@ struct EmailField: View {
                     .frame(width: 223, height: 44)
                 }
                 Button(action: {
-                    viewModel.callEmailValidation(email: viewModel.email) { result in
-                        viewModel.isValidEmail = result
-                    }
+                    viewModel.callEmailValidation(email: viewModel.email)
                 }, label: {
                     let image = viewModel.isValidEmail ? Image(.emailButtonEnabled) : Image(.emailButton)
                     image

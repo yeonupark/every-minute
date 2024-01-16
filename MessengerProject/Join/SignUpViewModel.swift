@@ -59,24 +59,21 @@ class SignUpViewModel: ObservableObject {
     
     private let provider = MoyaProvider<MarAPI>()
     
-    func callEmailValidation(email: String, completionHandler: @escaping (Bool) -> Void) {
+    func callEmailValidation(email: String) {
         provider.request(.emailValidation(email: email)) { result in
             switch result {
             case .success(let response):
                 if (200..<300).contains(response.statusCode) {
                     print("emailvalidation success - ", response.statusCode, response.data)
                     
-                    completionHandler(true)
+                    self.isValidEmail = true
                     
                 } else if (400..<501).contains(response.statusCode) {
                     print("emailvalidation failure - ", response.statusCode, response.data)
-                    
-                    completionHandler(false)
                 
                 }
             case .failure(let error):
                 print("emailValidation Error - ", error)
-                completionHandler(false)
             }
         }
         

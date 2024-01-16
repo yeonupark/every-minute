@@ -7,18 +7,31 @@
 
 import SwiftUI
 
-struct HomeEmptyView: View {
+struct HomeView: View {
+    
+    @ObservedObject var viewModel = HomeViewModel()
+    
     var body: some View {
         VStack {
-            HeaderView()
+            
+            if viewModel.isEmptyView {
+                HeaderView(workspaceName: "No Workspace")
+            } else {
+                HeaderView(workspaceName: viewModel.workspace[0].name)
+            }
             Divider()
             Spacer()
-            BodyView()
+            EmptyView()
+        }
+        .onAppear() {
+            viewModel.fetchWorkspaces()
         }
     }
 }
 
 struct HeaderView: View {
+    
+    var workspaceName: String
     
     var body: some View {
         HStack {
@@ -26,7 +39,7 @@ struct HeaderView: View {
                 .frame(width: 32, height: 32)
                 .foregroundColor(ColorSet.Brand.green)
                 .padding()
-            Text("No Workspace")
+            Text(workspaceName)
                 .fontWithLineHeight(font: Typography.title1.font, lineHeight: Typography.title1.lineHeight)
             Spacer()
             Image(systemName: "person.circle")
@@ -37,7 +50,7 @@ struct HeaderView: View {
     }
 }
 
-struct BodyView: View {
+struct EmptyView: View {
     
     var body: some View {
         VStack {
@@ -67,5 +80,5 @@ struct BodyView: View {
 }
 
 #Preview {
-    HomeEmptyView()
+    HomeView()
 }
