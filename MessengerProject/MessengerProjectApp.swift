@@ -18,6 +18,7 @@ struct MessengerProjectApp: App {
                 .onAppear() {
                     registerForRemoteNotifications()
                     print("accessToken: \(UserDefaults.standard.string(forKey: "token") ?? "")")
+                    print("refreshToken: \(UserDefaults.standard.string(forKey: "refreshToken") ?? "")")
                 }
         }
     }
