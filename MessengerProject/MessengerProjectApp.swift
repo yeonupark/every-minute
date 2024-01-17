@@ -14,7 +14,7 @@ struct MessengerProjectApp: App {
     
     var body: some Scene {
         WindowGroup {
-            OnboardingView()
+            InitialView()
                 .onAppear() {
                     registerForRemoteNotifications()
                     print("accessToken: \(UserDefaults.standard.string(forKey: "token") ?? "")")

@@ -9,6 +9,9 @@ import SwiftUI
 
 struct OnboardingView: View {
     
+    @Binding var isRootViewOnboardingView: Bool
+    @Binding var isNewUser: Bool
+    
     @State var isShowingBottomSheet = false
     @State var isShowingSignUpView = false
     @State var isShowingLoginView = false
@@ -44,11 +47,11 @@ struct OnboardingView: View {
                 })
                 .sheet(isPresented: $isShowingBottomSheet, content: {
                     if isShowingLoginView {
-                        LoginView(isShowingLoginView: $isShowingLoginView)
+                        LoginView(isRootViewOnboardingView: $isRootViewOnboardingView, isNewUser: $isNewUser, isShowingLoginView: $isShowingLoginView)
                             .presentationDragIndicator(.visible)
                     }
                     else if isShowingSignUpView {
-                        SignUpView(isShowingBottomSheet: $isShowingBottomSheet)
+                        SignUpView(isRootViewOnboardingView: $isRootViewOnboardingView, isNewUser: $isNewUser, isShowingBottomSheet: $isShowingBottomSheet)
                             .presentationDragIndicator(.visible)
                     } else {
                         loginSelectionView(isShowingSignUpView: $isShowingSignUpView, isShowingLoginView: $isShowingLoginView)
@@ -122,6 +125,6 @@ struct LoginButtonImage: View {
     }
 }
 
-#Preview {
-    OnboardingView()
-}
+//#Preview {
+//    OnboardingView()
+//}

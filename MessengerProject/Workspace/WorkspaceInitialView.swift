@@ -9,6 +9,8 @@ import SwiftUI
 
 struct WorkspaceInitialView: View {
     
+    @Environment(\.presentationMode) var presentationMode
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -41,7 +43,7 @@ struct WorkspaceInitialView: View {
             }
                 .navigationTitle(Text("시작하기"))
                 .navigationBarTitleDisplayMode(.inline)
-                .navigationBarItems(leading: closeBarButton2())
+                .navigationBarItems(leading: closeBarButton2(presentationMode: presentationMode))
         }
     }
 }
@@ -52,12 +54,11 @@ struct WorkspaceInitialView: View {
 
 struct closeBarButton2: View {
     
-    @Environment(\.dismiss) private var dismiss
+    @Binding var presentationMode: PresentationMode
     
     var body: some View {
         Button(action: {
-            print("dismiss")
-            dismiss()
+            presentationMode.dismiss()
         }, label: {
             Image(.closeIcon)
                 .resizable()

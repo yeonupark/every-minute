@@ -9,6 +9,9 @@ import SwiftUI
 
 struct LoginView: View {
     
+    @Binding var isRootViewOnboardingView: Bool
+    @Binding var isNewUser: Bool
+    
     @Binding var isShowingLoginView: Bool
     @ObservedObject var viewModel = LoginViewModel()
     
@@ -26,7 +29,8 @@ struct LoginView: View {
                     Button(action: {
                         viewModel.callLoginRequest { result in
                             if result {
-                                print("화면 전환")
+                                isRootViewOnboardingView = false
+                                isNewUser = false
                             }
                         }
                     }, label: {

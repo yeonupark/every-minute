@@ -9,10 +9,12 @@ import SwiftUI
 
 struct SignUpView: View {
     
+    @Binding var isRootViewOnboardingView: Bool
+    @Binding var isNewUser: Bool
+    
     @ObservedObject var viewModel = SignUpViewModel()
     
     @Binding var isShowingBottomSheet: Bool
-    @State var isShowingWorkspace = false
     
     var body: some View {
         
@@ -32,7 +34,10 @@ struct SignUpView: View {
                     Button(action: {
                         viewModel.callJoinRequest { result in
                             if result {
-                                isShowingWorkspace = true
+                                isShowingBottomSheet = false
+                                isRootViewOnboardingView = false
+                                isNewUser = true
+                                    
                             }
                         }
                     }, label: {
@@ -40,12 +45,6 @@ struct SignUpView: View {
                         image
                             .resizable()
                             .frame(width: 345, height: 44)
-                    })
-                    .fullScreenCover(isPresented: $isShowingWorkspace, content: {
-                        WorkspaceInitialView()
-                    })
-                    .fullScreenCover(isPresented: $isShowingWorkspace, content: {
-                        HomeView()
                     })
                 }
             }

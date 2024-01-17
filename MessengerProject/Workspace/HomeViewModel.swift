@@ -13,6 +13,7 @@ class HomeViewModel: ObservableObject {
     
     @Published var isEmptyView = true
     @Published var workspace: [WorkspacesResponseData] = []
+    @Published var isLogout = true
     
     init() {
         
@@ -33,6 +34,7 @@ class HomeViewModel: ObservableObject {
                         
                         self.isEmptyView = result.isEmpty
                         self.workspace = result
+                        self.isLogout = false
                         
                     } catch {
                         print("fetchWorkspaces decoding error")

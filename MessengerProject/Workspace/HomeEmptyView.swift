@@ -10,10 +10,11 @@ import SwiftUI
 struct HomeView: View {
     
     @ObservedObject var viewModel = HomeViewModel()
+    @State var isNewUser = false
+    @Binding var isNewUserResult: Bool
     
     var body: some View {
         VStack {
-            
             if viewModel.isEmptyView {
                 HeaderView(workspaceName: "No Workspace")
             } else {
@@ -24,8 +25,15 @@ struct HomeView: View {
             EmptyView()
         }
         .onAppear() {
-            viewModel.fetchWorkspaces()
+            DispatchQueue.main.async {
+                viewModel.fetchWorkspaces()
+                isNewUser = isNewUserResult
+            }
+            
         }
+        .fullScreenCover(isPresented: $isNewUser, content: {
+            WorkspaceInitialView()
+        })
     }
 }
 
@@ -78,7 +86,7 @@ struct EmptyView: View {
         }
     }
 }
-
-#Preview {
-    HomeView()
-}
+//
+//#Preview {
+//    HomeView()
+//}
