@@ -66,3 +66,18 @@ struct WorkspacesResponseData: Decodable {
     let owner_id: Int
     let createdAt: String
 }
+
+struct NewWorkspacesModel: Encodable {
+    let name: String
+    let description: String?
+    let image: String
+}
+
+struct NewWorkspacesResponse: Decodable {
+    let workspace_id: Int
+    let name: String
+    let description: String?
+    let thumbnail: String
+    let owner_id: Int
+    let createdAt: String
+}

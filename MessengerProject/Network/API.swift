@@ -13,13 +13,14 @@ enum MarAPI {
     case join(join: JoinModel)
     case login(login: LoginModel)
     case getWorkspaces
+    case createWorkspaces(model: NewWorkspacesModel)
 }
 
 extension MarAPI: Moya.TargetType {
     
     var baseURL: URL {
         switch self {
-        case .emailValidation, .join, .login, .getWorkspaces:
+        case .emailValidation, .join, .login, .getWorkspaces, .createWorkspaces:
             return URL(string: APIkeys.baseURL)!
         }
     }
@@ -32,7 +33,7 @@ extension MarAPI: Moya.TargetType {
             return "v1/users/join"
         case .login:
             return "v1/users/login"
-        case .getWorkspaces:
+        case .getWorkspaces, .createWorkspaces:
             return "v1/workspaces"
         }
         
@@ -40,7 +41,7 @@ extension MarAPI: Moya.TargetType {
     
     var method: Moya.Method {
         switch self {
-        case .emailValidation, .join, .login:
+        case .emailValidation, .join, .login, .createWorkspaces:
             return .post
         case .getWorkspaces:
             return .get
@@ -57,6 +58,8 @@ extension MarAPI: Moya.TargetType {
             return .requestJSONEncodable(login)
         case .getWorkspaces:
             return .requestPlain
+        case .createWorkspaces(let model):
+            return .requestJSONEncodable(model)
         }
     }
     
@@ -67,6 +70,10 @@ extension MarAPI: Moya.TargetType {
              "SesacKey" : APIkeys.sesacKey]
         case .getWorkspaces:
             ["Authorization" : UserDefaults.standard.string(forKey: "token") ?? "",
+             "SesacKey" : APIkeys.sesacKey]
+        case .createWorkspaces:
+            ["Content-Type" : "multipart/form-data",
+             "Authorization" : UserDefaults.standard.string(forKey: "token") ?? "",
              "SesacKey" : APIkeys.sesacKey]
         }
     }

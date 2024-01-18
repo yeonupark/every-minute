@@ -10,6 +10,7 @@ import SwiftUI
 struct WorkspaceInitialView: View {
     
     @Environment(\.presentationMode) var presentationMode
+    @State var isShowingCreateView = false
     
     var body: some View {
         NavigationView {
@@ -32,7 +33,7 @@ struct WorkspaceInitialView: View {
                         .padding(.top, 15)
                     Spacer()
                     Button(action: {
-                        print("워크스페이스생성")
+                        isShowingCreateView = true
                     }, label: {
                         Image(.makeWorkspaceButton)
                             .resizable()
@@ -45,6 +46,10 @@ struct WorkspaceInitialView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarItems(leading: closeBarButton2(presentationMode: presentationMode))
         }
+        .sheet(isPresented: $isShowingCreateView, content: {
+            CreateWorkspaceView(isShowingCreateView: $isShowingCreateView)
+                .presentationDragIndicator(.visible)
+        })
     }
 }
 
