@@ -13,6 +13,7 @@ class CreateWorkspaceViewModel: ObservableObject {
     
     @Published var name = ""
     @Published var description = ""
+    @Published var imageData = Data()
     
     @Published var isNameFieldFilled = false
     
@@ -34,29 +35,41 @@ class CreateWorkspaceViewModel: ObservableObject {
     private let provider = MoyaProvider<MarAPI>()
     
     func createWorkspace() {
-        let model = NewWorkspacesModel(name: name, description: description, image: "/static/workspaceThumbnail/1701706651161.jpeg")
+        let model = NewWorkspacesModel(name: name, description: description, image: imageData)
         provider.request(.createWorkspaces(model: model)) { result in
-            
+            print(model)
             switch result {
             case .success(let response):
                 if (200..<300).contains(response.statusCode) {
-                    print("create success - ", response.statusCode, response.data)
-                    
                     do {
                         let result = try JSONDecoder().decode(NewWorkspacesResponse.self, from: response.data)
                         print(result)
+                        print("create success - ", response.statusCode, response.data)
                         
                     } catch {
-                        print("create decoding error")
+                        print("create decoding error - ")
                     }
                     
                 } else if (400..<501).contains(response.statusCode) {
-                    print("create failure - ", response.statusCode, response.data)
-                    
+                    do {
+                        let errorResponse = try JSONDecoder().decode(ErrorMessage.self, from: response.data)
+                        print("create failure - ", response.statusCode, errorResponse.errorCode)
+                        
+                    } catch {
+                        print("create decoding error - ")
+                    }
                 }
             case .failure(let error):
                 print("create Error - ", error)
             }
         }
+    }
+}
+
+struct ErrorMessage: Codable {
+    let errorCode: String
+    
+    enum CodingKeys: String, CodingKey {
+        case errorCode
     }
 }

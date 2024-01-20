@@ -6,11 +6,12 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct CreateWorkspaceView: View {
     
-    @State var name = ""
-    @State var description = ""
+    @State private var selectedPhoto: PhotosPickerItem? = nil
+    
     @Binding var isShowingCreateView: Bool
     
     @ObservedObject var viewModel = CreateWorkspaceViewModel()
@@ -29,10 +30,20 @@ struct CreateWorkspaceView: View {
                             .resizable()
                             .frame(width: 48, height: 60)
                             .padding(.top, 10)
-                        Image(.cameraIcon)
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                            .offset(x: 30, y: 30)
+                        PhotosPicker(selection: $selectedPhoto, matching: .images, photoLibrary: .shared()) {
+                            Image(.cameraIcon)
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                                .offset(x: 30, y: 30)
+                        }
+                        .onChange(of: selectedPhoto) { newPhoto in
+                            Task {
+                                if let data = try? await newPhoto?.loadTransferable(type: Data.self) {
+                                    viewModel.imageData = data
+                                }
+                            }
+                        }
+                        
                     }
                     .padding(.top, 24)
                     InputField(label: "워크스페이스 이름", placeholder: "워크스페이스 이름을 입력하세요 (필수)", input: $viewModel.name)
@@ -41,8 +52,7 @@ struct CreateWorkspaceView: View {
                         .padding(.top, 16)
                     Spacer()
                     Button(action: {
-                        print(viewModel.name)
-                        print(viewModel.isNameFieldFilled)
+                        viewModel.createWorkspace()
                     }, label: {
                         let image = viewModel.isNameFieldFilled ? Image(.doneButtonEnabled) : Image(.doneButton)
                         image

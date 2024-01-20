@@ -26,7 +26,7 @@ struct HomeView: View {
         }
         .onAppear() {
             DispatchQueue.main.async {
-                viewModel.fetchWorkspaces()
+                //viewModel.fetchWorkspaces()
                 isNewUser = isNewUserResult
             }
             
@@ -60,6 +60,8 @@ struct HeaderView: View {
 
 struct EmptyView: View {
     
+    @State var isShowingCreateView = false
+    
     var body: some View {
         VStack {
             Text("워크스페이스를 찾을 수 없어요.")
@@ -76,17 +78,17 @@ struct EmptyView: View {
                 .padding(.top, 15)
             Spacer()
             Button(action: {
-                
+                isShowingCreateView = true
             }, label: {
                 Image(.makeWorkspaceButton)
                     .resizable()
                     .frame(width: 345, height: 44)
-                    .padding(.bottom, 24)
             })
+            .padding(.bottom, 24)
         }
+        .sheet(isPresented: $isShowingCreateView, content: {
+            CreateWorkspaceView(isShowingCreateView: $isShowingCreateView)
+        })
+        
     }
 }
-//
-//#Preview {
-//    HomeView()
-//}

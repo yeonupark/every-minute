@@ -18,9 +18,9 @@ struct InitialView: View {
         
         if viewModel.isLogout {
             OnboardingView(isRootViewOnboardingView: $viewModel.isLogout, isNewUser: $isNewUser)
-                .onAppear() {
-                    viewModel.fetchWorkspaces()
-                }
+//                .onAppear() {
+//                    viewModel.fetchWorkspaces()
+//                }
         } else {
             HomeView(isNewUserResult: $isNewUser)
         }

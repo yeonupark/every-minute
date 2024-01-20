@@ -70,7 +70,7 @@ struct WorkspacesResponseData: Decodable {
 struct NewWorkspacesModel: Encodable {
     let name: String
     let description: String?
-    let image: String
+    let image: Data
 }
 
 struct NewWorkspacesResponse: Decodable {

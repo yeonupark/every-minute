@@ -59,7 +59,13 @@ extension MarAPI: Moya.TargetType {
         case .getWorkspaces:
             return .requestPlain
         case .createWorkspaces(let model):
-            return .requestJSONEncodable(model)
+            var formData: [MultipartFormData] = []
+            formData.append(MultipartFormData(provider: .data(model.name.data(using: .utf8)!), name: "name"))
+            if let description = model.description {
+                formData.append(MultipartFormData(provider: .data(description.data(using: .utf8)!), name: "description"))
+            }
+            formData.append(MultipartFormData(provider: .data(model.image), name: "img", fileName: "workspace.jpeg", mimeType: "image/jpeg"))
+            return .uploadMultipart(formData)
         }
     }
     

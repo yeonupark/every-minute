@@ -16,7 +16,7 @@ class HomeViewModel: ObservableObject {
     @Published var isLogout = true
     
     init() {
-        
+        fetchWorkspaces()
     }
     
     private var cancellables = Set<AnyCancellable>()
