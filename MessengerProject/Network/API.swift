@@ -64,7 +64,9 @@ extension MarAPI: Moya.TargetType {
             if let description = model.description {
                 formData.append(MultipartFormData(provider: .data(description.data(using: .utf8)!), name: "description"))
             }
-            formData.append(MultipartFormData(provider: .data(model.image), name: "img", fileName: "workspace.jpeg", mimeType: "image/jpeg"))
+            formData.append(MultipartFormData(provider: .data(Data(base64Encoded: model.image)!), name: "workspace", fileName: "workspace.jpeg", mimeType: "image/jpeg"))
+            //formData.append(MultipartFormData(provider: .data(Data(model.image.utf8)), name: "workspace", fileName: "workspace.jpeg", mimeType: "image/jpeg"))
+            //print(formData)
             return .uploadMultipart(formData)
         }
     }

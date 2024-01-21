@@ -16,6 +16,8 @@ struct CreateWorkspaceView: View {
     
     @ObservedObject var viewModel = CreateWorkspaceViewModel()
     
+    //var image = Image(.chatIcon)
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -26,7 +28,8 @@ struct CreateWorkspaceView: View {
                             .foregroundColor(ColorSet.Brand.green)
                             .frame(width: 70, height: 70)
                             .cornerRadius(8)
-                        Image(.chatIcon)
+                        
+                        Image(uiImage: viewModel.image)
                             .resizable()
                             .frame(width: 48, height: 60)
                             .padding(.top, 10)
@@ -39,7 +42,17 @@ struct CreateWorkspaceView: View {
                         .onChange(of: selectedPhoto) { newPhoto in
                             Task {
                                 if let data = try? await newPhoto?.loadTransferable(type: Data.self) {
-                                    viewModel.imageData = data
+                                    print(data)
+                                    
+                                    guard let image = UIImage(data: data) else { return }
+                                    viewModel.image = image
+                                    
+                                    guard let compressedData = image.jpegData(compressionQuality: 0.1) else { return }
+                                    print(compressedData)
+                                    
+                                    viewModel.imageString = compressedData.base64EncodedString()
+                                    //print(viewModel.imageString)
+                                    
                                 }
                             }
                         }

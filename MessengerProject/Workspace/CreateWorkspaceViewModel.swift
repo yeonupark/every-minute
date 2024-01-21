@@ -11,9 +11,12 @@ import Moya
 
 class CreateWorkspaceViewModel: ObservableObject {
     
+    @Published var image = Image(resource: .chatIcon)
+    
     @Published var name = ""
     @Published var description = ""
-    @Published var imageData = Data()
+    //@Published var imageData = Data()
+    @Published var imageString = ""
     
     @Published var isNameFieldFilled = false
     
@@ -35,9 +38,9 @@ class CreateWorkspaceViewModel: ObservableObject {
     private let provider = MoyaProvider<MarAPI>()
     
     func createWorkspace() {
-        let model = NewWorkspacesModel(name: name, description: description, image: imageData)
+        let model = NewWorkspacesModel(name: name, description: description, image: imageString)
         provider.request(.createWorkspaces(model: model)) { result in
-            print(model)
+            
             switch result {
             case .success(let response):
                 if (200..<300).contains(response.statusCode) {
