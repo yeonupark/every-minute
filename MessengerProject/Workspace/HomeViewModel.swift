@@ -13,6 +13,7 @@ class HomeViewModel: ObservableObject {
     
     @Published var isEmptyView = true
     @Published var workspace: [WorkspacesResponseData] = []
+    @Published var workspaceImage = Image(systemName: "star")
     @Published var isLogout = true
     
     init() {
@@ -31,6 +32,7 @@ class HomeViewModel: ObservableObject {
                     
                     do {
                         let result = try JSONDecoder().decode([WorkspacesResponseData].self, from: response.data)
+                        print(result)
                         
                         self.isEmptyView = result.isEmpty
                         self.workspace = result

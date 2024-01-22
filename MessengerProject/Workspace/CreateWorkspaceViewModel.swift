@@ -37,7 +37,7 @@ class CreateWorkspaceViewModel: ObservableObject {
     
     private let provider = MoyaProvider<MarAPI>()
     
-    func createWorkspace() {
+    func createWorkspace(completionHandler: @escaping (Bool) -> Void) {
         let model = NewWorkspacesModel(name: name, description: description, image: imageString)
         provider.request(.createWorkspaces(model: model)) { result in
             
@@ -48,22 +48,25 @@ class CreateWorkspaceViewModel: ObservableObject {
                         let result = try JSONDecoder().decode(NewWorkspacesResponse.self, from: response.data)
                         print(result)
                         print("create success - ", response.statusCode, response.data)
-                        
+                        completionHandler(true)
                     } catch {
                         print("create decoding error - ")
+                        completionHandler(false)
                     }
                     
                 } else if (400..<501).contains(response.statusCode) {
                     do {
                         let errorResponse = try JSONDecoder().decode(ErrorMessage.self, from: response.data)
                         print("create failure - ", response.statusCode, errorResponse.errorCode)
-                        
+                        completionHandler(false)
                     } catch {
                         print("create decoding error - ")
+                        completionHandler(false)
                     }
                 }
             case .failure(let error):
                 print("create Error - ", error)
+                completionHandler(false)
             }
         }
     }

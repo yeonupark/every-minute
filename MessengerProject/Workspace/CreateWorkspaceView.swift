@@ -16,8 +16,6 @@ struct CreateWorkspaceView: View {
     
     @ObservedObject var viewModel = CreateWorkspaceViewModel()
     
-    //var image = Image(.chatIcon)
-    
     var body: some View {
         NavigationView {
             ZStack {
@@ -51,8 +49,6 @@ struct CreateWorkspaceView: View {
                                     print(compressedData)
                                     
                                     viewModel.imageString = compressedData.base64EncodedString()
-                                    //print(viewModel.imageString)
-                                    
                                 }
                             }
                         }
@@ -65,7 +61,11 @@ struct CreateWorkspaceView: View {
                         .padding(.top, 16)
                     Spacer()
                     Button(action: {
-                        viewModel.createWorkspace()
+                        viewModel.createWorkspace { result in
+                            if result {
+                                isShowingCreateView = false
+                            }
+                        }
                     }, label: {
                         let image = viewModel.isNameFieldFilled ? Image(.doneButtonEnabled) : Image(.doneButton)
                         image

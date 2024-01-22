@@ -16,13 +16,19 @@ struct HomeView: View {
     var body: some View {
         VStack {
             if viewModel.isEmptyView {
-                HeaderView(workspaceName: "No Workspace")
+                HeaderView(workspaceName: "No Workspace", workspaceImage: Image(systemName: "star"))
+                Divider()
+                Spacer()
+                EmptyView()
+                Divider()
             } else {
-                HeaderView(workspaceName: viewModel.workspace[0].name)
+                HeaderView(workspaceName: viewModel.workspace[0].name, workspaceImage: Image(systemName: "star"))
+                Divider()
+                Spacer()
+                //HomeInitialView()
+                WorkspaceView()
             }
-            Divider()
-            Spacer()
-            EmptyView()
+            
         }
         .onAppear() {
             DispatchQueue.main.async {
@@ -40,12 +46,12 @@ struct HomeView: View {
 struct HeaderView: View {
     
     var workspaceName: String
+    var workspaceImage: Image
     
     var body: some View {
         HStack {
-            Circle()
+            workspaceImage
                 .frame(width: 32, height: 32)
-                .foregroundColor(ColorSet.Brand.green)
                 .padding()
             Text(workspaceName)
                 .fontWithLineHeight(font: Typography.title1.font, lineHeight: Typography.title1.lineHeight)
