@@ -9,6 +9,9 @@ import SwiftUI
 
 struct WorkspaceView: View {
     @State var isNewUserResult = false
+    @Binding var isLogout: Bool
+    
+    var viewModel =  MyProfileViewModel()
     
     var body: some View {
         TabView {
@@ -28,7 +31,12 @@ struct WorkspaceView: View {
                     Text("검색")
                 }
             Button(action: {
-                
+                viewModel.callLogout { result in
+                    if result {
+                        // 첫화면으로 화면 전환
+                        isLogout = true
+                    }
+                }
             }, label: {
                 Text("로그아웃")
             })
@@ -39,8 +47,4 @@ struct WorkspaceView: View {
         }
         .accentColor(.black)
     }
-}
-
-#Preview {
-    WorkspaceView()
 }

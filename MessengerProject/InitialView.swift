@@ -22,7 +22,7 @@ struct InitialView: View {
 //                    viewModel.fetchWorkspaces()
 //                }
         } else {
-            HomeView(isNewUserResult: $isNewUser)
+            HomeView(isNewUserResult: $isNewUser, isLogout: $viewModel.isLogout)
         }
     }
 }

@@ -13,6 +13,8 @@ struct HomeView: View {
     @State var isNewUser = false
     @Binding var isNewUserResult: Bool
     
+    @Binding var isLogout: Bool
+    
     var body: some View {
         VStack {
             if viewModel.isEmptyView {
@@ -26,7 +28,7 @@ struct HomeView: View {
                 Divider()
                 Spacer()
                 //HomeInitialView()
-                WorkspaceView()
+                WorkspaceView(isLogout: $isLogout)
             }
             
         }
