@@ -13,7 +13,7 @@ class HomeViewModel: ObservableObject {
     
     @Published var isEmptyView = true
     @Published var workspace: [WorkspacesResponseData] = []
-    @Published var workspaceImage = Image(systemName: "star")
+    @Published var workspaceImageThumbnail = ""
     @Published var isLogout = true
     
     init() {
@@ -38,6 +38,8 @@ class HomeViewModel: ObservableObject {
                         self.workspace = result
                         self.isLogout = false
                         
+                        self.workspaceImageThumbnail = "\(APIkeys.baseURL)v1\(result[0].thumbnail)"
+                        print(self.workspaceImageThumbnail)
                     } catch {
                         print("fetchWorkspaces decoding error")
                     }

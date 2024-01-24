@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct HomeView: View {
     
@@ -18,13 +19,13 @@ struct HomeView: View {
     var body: some View {
         VStack {
             if viewModel.isEmptyView {
-                HeaderView(workspaceName: "No Workspace", workspaceImage: Image(systemName: "star"))
+                HeaderView(workspaceName: "No Workspace", workspaceImageThumbnail: "")
                 Divider()
                 Spacer()
                 EmptyView()
                 Divider()
             } else {
-                HeaderView(workspaceName: viewModel.workspace[0].name, workspaceImage: Image(systemName: "star"))
+                HeaderView(workspaceName: viewModel.workspace[0].name, workspaceImageThumbnail: viewModel.workspaceImageThumbnail)
                 Divider()
                 Spacer()
                 //HomeInitialView()
@@ -48,18 +49,28 @@ struct HomeView: View {
 struct HeaderView: View {
     
     var workspaceName: String
-    var workspaceImage: Image
+    var workspaceImageThumbnail: String
     
     var body: some View {
         HStack {
-            workspaceImage
+            KFImage(URL(string: workspaceImageThumbnail))
+                .placeholder {
+                    ProgressView()
+                }
+                .onFailure { error in
+                    print("이미지 로딩 실패 ㅠㅠ: \(error)")
+                }
+                .resizable()
                 .frame(width: 32, height: 32)
-                .padding()
+                .cornerRadius(10)
+                .padding(.leading, 16)
+            
             Text(workspaceName)
                 .fontWithLineHeight(font: Typography.title1.font, lineHeight: Typography.title1.lineHeight)
             Spacer()
-            Image(systemName: "person.circle")
+            KFImage(URL(string: "https://image.blip.kr/v1/file/b2595c70f5f7ffc48bec83400d0ecdcd"))
                 .resizable()
+                .cornerRadius(16)
                 .frame(width: 32, height: 32)
                 .padding()
         }

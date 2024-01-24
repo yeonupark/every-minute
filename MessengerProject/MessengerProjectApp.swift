@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 @main
 struct MessengerProjectApp: App {
@@ -41,5 +42,16 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
         print("Device Token: \(token)")
         UserDefaults.standard.set(token, forKey: "deviceToken")
+        
+        let modifier = AnyModifier { request in
+            var r = request
+            r.setValue(APIkeys.sesacKey, forHTTPHeaderField: "SesacKey")
+            r.setValue(UserDefaults.standard.string(forKey: "token") ?? "", forHTTPHeaderField: "Authorization")
+            //r.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            return r
+        }
+        
+        KingfisherManager.shared.defaultOptions = [.requestModifier(modifier)]
+        
     }
 }
