@@ -10,6 +10,8 @@ import Kingfisher
 
 struct HomeView: View {
     
+    @State var isShowingSideMenu = false
+    
     @ObservedObject var viewModel = HomeViewModel()
     @State var isNewUser = false
     @Binding var isNewUserResult: Bool
@@ -17,21 +19,30 @@ struct HomeView: View {
     @Binding var isLogout: Bool
     
     var body: some View {
-        VStack {
-            if viewModel.isEmptyView {
-                HeaderView(workspaceName: "No Workspace", workspaceImageThumbnail: "")
-                Divider()
-                Spacer()
-                EmptyView()
-                Divider()
-            } else {
-                HeaderView(workspaceName: viewModel.workspace[0].name, workspaceImageThumbnail: viewModel.workspaceImageThumbnail)
-                Divider()
-                Spacer()
-                //HomeInitialView()
-                WorkspaceView(isLogout: $isLogout)
+        ZStack {
+            VStack {
+                if viewModel.isEmptyView {
+                    HeaderView(workspaceName: "No Workspace", workspaceImageThumbnail: "", isShowingSideMenu: $isShowingSideMenu)
+                    Divider()
+                    Spacer()
+                    EmptyView()
+                    Divider()
+                } else {
+                    HeaderView(workspaceName: viewModel.workspace[0].name, workspaceImageThumbnail: viewModel.workspaceImageThumbnail, isShowingSideMenu: $isShowingSideMenu)
+                    Divider()
+                    Spacer()
+                    //HomeInitialView()
+                    WorkspaceView(isLogout: $isLogout)
+                }
             }
-            
+            if isShowingSideMenu {
+                withAnimation {
+                    Color.gray.opacity(0.7)
+                        .ignoresSafeArea()
+                }
+            }
+            WorkspaceListView(workspaces: $viewModel.workspace)
+                .offset(x: isShowingSideMenu ? 0 : -270)
         }
         .onAppear() {
             DispatchQueue.main.async {
@@ -43,6 +54,17 @@ struct HomeView: View {
         .fullScreenCover(isPresented: $isNewUser, content: {
             WorkspaceInitialView()
         })
+        .gesture(
+            DragGesture()
+                .onChanged({gesture in
+                    let show = gesture.translation.width > 100
+                    
+                    withAnimation {
+                        isShowingSideMenu = show
+                    }
+                })
+        )
+        
     }
 }
 
@@ -50,6 +72,7 @@ struct HeaderView: View {
     
     var workspaceName: String
     var workspaceImageThumbnail: String
+    @Binding var isShowingSideMenu: Bool
     
     var body: some View {
         HStack {
@@ -67,6 +90,11 @@ struct HeaderView: View {
             
             Text(workspaceName)
                 .fontWithLineHeight(font: Typography.title1.font, lineHeight: Typography.title1.lineHeight)
+                .onTapGesture {
+                    withAnimation {
+                        isShowingSideMenu = true
+                    }
+                }
             Spacer()
             KFImage(URL(string: "https://image.blip.kr/v1/file/b2595c70f5f7ffc48bec83400d0ecdcd"))
                 .resizable()
