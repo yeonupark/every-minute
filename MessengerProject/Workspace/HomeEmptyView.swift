@@ -28,10 +28,9 @@ struct HomeView: View {
                     EmptyView()
                     Divider()
                 } else {
-                    HeaderView(workspaceName: viewModel.workspace[0].name, workspaceImageThumbnail: viewModel.workspaceImageThumbnail, isShowingSideMenu: $isShowingSideMenu)
+                    HeaderView(workspaceName: viewModel.workspaces[0].name, workspaceImageThumbnail: viewModel.makeURL(thumbnail: viewModel.currentWorkspace.thumbnail), isShowingSideMenu: $isShowingSideMenu)
                     Divider()
                     Spacer()
-                    //HomeInitialView()
                     WorkspaceView(isLogout: $isLogout)
                 }
             }
@@ -41,7 +40,7 @@ struct HomeView: View {
                         .ignoresSafeArea()
                 }
             }
-            WorkspaceListView(workspaces: $viewModel.workspace)
+            WorkspaceListView(viewModel: viewModel)
                 .offset(x: isShowingSideMenu ? 0 : -270)
         }
         .onAppear() {
@@ -56,12 +55,15 @@ struct HomeView: View {
         })
         .gesture(
             DragGesture()
-                .onChanged({gesture in
-                    let show = gesture.translation.width > 100
-                    
+                .onChanged({ gesture in
                     withAnimation {
-                        isShowingSideMenu = show
+                        if isShowingSideMenu {
+                            isShowingSideMenu = gesture.translation.width > -100
+                        } else {
+                            isShowingSideMenu = gesture.translation.width > 100
+                        }
                     }
+                        
                 })
         )
         

@@ -10,7 +10,8 @@ import Kingfisher
 
 struct WorkspaceListView: View {
     
-    @Binding var workspaces: [WorkspacesResponseData]
+    @ObservedObject var viewModel: HomeViewModel
+    
     @State var isShowingCreateView = false
     
     var body: some View {
@@ -27,8 +28,8 @@ struct WorkspaceListView: View {
                     
                 }
                 .frame(height: 118)
-                List(workspaces) { item in
-                    WorkspaceListCell(imageThumbnail: item.thumbnail, name: item.name, createdAt: item.createdAt)
+                List(viewModel.workspaces) { item in
+                    WorkspaceListCell(viewModel: viewModel, workspace: item)
                         .listRowSeparator(.hidden)
                 }
                 .listStyle(.plain)
@@ -62,10 +63,12 @@ struct WorkspaceListView: View {
 }
 
 struct WorkspaceListCell: View {
-
-    var imageThumbnail: String
-    var name: String
-    var createdAt: String
+    
+    @State var isShowingAlert = false
+    
+    @ObservedObject var viewModel: HomeViewModel
+    
+    var workspace: WorkspacesResponseData
     
     func dateFormat(originalString: String) -> String {
         let dateFormatter = DateFormatter()
@@ -78,27 +81,48 @@ struct WorkspaceListCell: View {
     
     var body: some View {
         HStack {
-            KFImage(URL(string: "\(APIkeys.baseURL)v1\(imageThumbnail)"))
+            KFImage(URL(string: "\(APIkeys.baseURL)v1\(workspace.thumbnail)"))
                 .resizable()
                 .frame(width: 44, height: 44)
                 .cornerRadius(8)
             VStack {
-                Text(name)
+                Text(workspace.name)
                     .fontWithLineHeight(font: Typography.bodyBold.font, lineHeight: Typography.bodyBold.lineHeight)
-                Text(dateFormat(originalString: createdAt))
+                Text(dateFormat(originalString: workspace.createdAt))
                     .fontWithLineHeight(font: Typography.bodyRegular.font, lineHeight: Typography.bodyRegular.lineHeight)
                     .foregroundColor(ColorSet.Text.secondary)
             }
             Spacer()
             Button(action: {
-                
+                isShowingAlert = true
             }, label: {
                 Image(.threeDotsIcon)
+                    .resizable()
+                    .frame(width: 20, height: 20)
+                    .padding()
+            })
+            .actionSheet(isPresented: $isShowingAlert, content: {
+                ActionSheet(title: Text("워크스페이스 설정"), buttons: [
+                    .default(Text("워크스페이스 편집"), action: {
+                        print("편집편집")
+                    }),
+                    .default(Text("워크스페이스 나가기"), action: {
+                        print("나가기")
+                    }),
+                    .default(Text("워크스페이스 관리자 변경"), action: {
+                        print("관리자!")
+                    }),
+                    .destructive(Text("워크스페이스 삭제"), action: {
+                        print("삭제삭제")
+                        viewModel.deleteWorkspace(id: workspace.id) { result in
+                            if result {
+                                viewModel.fetchWorkspaces()
+                            }
+                        }
+                    }),
+                    .cancel(Text("취소"))
+                ])
             })
         }
     }
 }
-
-//#Preview {
-//    WorkspaceListView()
-//}
