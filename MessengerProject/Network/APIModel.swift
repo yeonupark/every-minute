@@ -166,3 +166,7 @@ struct NewChannelModel: Encodable {
     let name: String
     let description: String?
 }
+
+struct MemberInvite: Encodable {
+    let email: String
+}

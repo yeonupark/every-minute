@@ -18,13 +18,14 @@ enum MarAPI {
     case createWorkspaces(model: NewWorkspacesModel)
     case deleteWorkspace(id: Int)
     case createChannel(id: Int, model: NewChannelModel)
+    case inviteMember(id: Int, email: String)
 }
 
 extension MarAPI: Moya.TargetType {
     
     var baseURL: URL {
         switch self {
-        case .emailValidation, .join, .login, .logout, .getWorkspaces, .getOneWorkspace, .createWorkspaces, .deleteWorkspace, .createChannel:
+        case .emailValidation, .join, .login, .logout, .getWorkspaces, .getOneWorkspace, .createWorkspaces, .deleteWorkspace, .createChannel, .inviteMember:
             return URL(string: APIkeys.baseURL)!
         }
     }
@@ -45,13 +46,15 @@ extension MarAPI: Moya.TargetType {
             return "v1/workspaces/\(id)"
         case .createChannel(let id, _):
             return "v1/workspaces/\(id)/channels"
+        case .inviteMember(let id, _):
+            return "v1/workspaces/\(id)/members"
         }
         
     }
     
     var method: Moya.Method {
         switch self {
-        case .emailValidation, .join, .login, .createWorkspaces, .createChannel:
+        case .emailValidation, .join, .login, .createWorkspaces, .createChannel, .inviteMember:
             return .post
         case .logout, .getWorkspaces, .getOneWorkspace:
             return .get
@@ -92,6 +95,8 @@ extension MarAPI: Moya.TargetType {
             return .requestPlain
         case .createChannel(_, let model):
             return .requestJSONEncodable(NewChannelModel(name: model.name, description: model.description))
+        case .inviteMember(_, let email):
+            return .requestJSONEncodable(MemberInvite(email: email))
         }
     }
     
@@ -100,7 +105,7 @@ extension MarAPI: Moya.TargetType {
         case .emailValidation, .join, .login:
             ["Content-Type" : "application/json",
              "SesacKey" : APIkeys.sesacKey]
-        case .logout, .getWorkspaces, .getOneWorkspace, .deleteWorkspace, .createChannel:
+        case .logout, .getWorkspaces, .getOneWorkspace, .deleteWorkspace, .createChannel, .inviteMember:
             ["Authorization" : UserDefaults.standard.string(forKey: "token") ?? "",
              "SesacKey" : APIkeys.sesacKey]
         case .createWorkspaces:

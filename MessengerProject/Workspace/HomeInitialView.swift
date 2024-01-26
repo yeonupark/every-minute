@@ -10,6 +10,7 @@ import Kingfisher
 
 struct HomeInitialView: View {
     
+    @State var isShowingInviteMemberView = false
     @State var isShowingCreateChannelView = false
     @State var refreshWorkspace = false
     
@@ -61,11 +62,16 @@ struct HomeInitialView: View {
                     .fontWithLineHeight(font: Typography.bodyRegular.font, lineHeight: Typography.bodyRegular.lineHeight)
             }
             .foregroundColor(ColorSet.Text.secondary)
-            //Spacer()
+            .onTapGesture {
+                isShowingInviteMemberView = true
+            }
         }
         .listStyle(.plain)
         .sheet(isPresented: $isShowingCreateChannelView, content: {
             CreateChannelView(homeViewModel: viewModel, isShowingCreateChannelSheet: $isShowingCreateChannelView)
+        })
+        .sheet(isPresented: $isShowingInviteMemberView, content: {
+            MemberInviteView(homeViewModel: viewModel, isShowingMemberInviteView: $isShowingInviteMemberView)
         })
 //        .onAppear() {
 //            print(viewModel.currentWorkspace)

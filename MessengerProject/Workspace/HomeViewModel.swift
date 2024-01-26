@@ -16,7 +16,6 @@ class HomeViewModel: ObservableObject {
     
     @Published var workspaces: [WorkspacesResponseData] = []
     @Published var currentWorkspace = OneWorkspaceData(workspaceID: 0, description: nil, name: "", thumbnail: "", ownerID: 0, createdAt: "", channels: [], workspaceMembers: [])
-    //: WorkspacesResponseData = WorkspacesResponseData(workspace_id: 0, name: "", description: nil, thumbnail: "", owner_id: 0, createdAt: "")
     
     init() {
         fetchWorkspaces()
@@ -34,14 +33,12 @@ class HomeViewModel: ObservableObject {
                     
                     do {
                         let result = try JSONDecoder().decode([WorkspacesResponseData].self, from: response.data)
-                        //print(result)
                         
                         self.isEmptyView = result.isEmpty
                         self.workspaces = result
                         self.isLogout = false
                         
                         if !result.isEmpty {
-                            //self.currentWorkspace = result[0]
                             self.fetchOneWorkspace(id: result[0].id)
                         }
                         

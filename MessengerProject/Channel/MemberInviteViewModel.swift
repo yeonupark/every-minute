@@ -1,5 +1,5 @@
 //
-//  CreateChannelViewModel.swift
+//  MemberInviteViewModel.swift
 //  MessengerProject
 //
 //  Created by Yeonu Park on 2024/01/26.
@@ -9,14 +9,10 @@ import Foundation
 import Combine
 import Moya
 
-class CreateChannelViewModel: ObservableObject {
+class MemberInviteViewModel: ObservableObject {
     
-    @Published var name = ""
-    @Published var description = ""
-    
-    @Published var isNameFieldFilled = false
-    
-    //@Published var newChannel = Channel(workspaceID: 0, channelID: 0, name: "", description: nil, ownerID: 0, channelPrivate: 0, createdAt: "")
+    @Published var email: String = ""
+    @Published var idEmailFieldFilled = false
     
     init() {
         fieldCheck()
@@ -25,39 +21,42 @@ class CreateChannelViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     func fieldCheck() {
-        $name
-            .map { !$0.isEmpty }
+        $email
+            .map { email in
+                !email.isEmpty
+            }
             .eraseToAnyPublisher()
             .receive(on: RunLoop.main)
-            .assign(to: \.isNameFieldFilled, on: self)
+            .assign(to: \.idEmailFieldFilled, on: self)
             .store(in: &cancellables)
     }
     
     private let provider = MoyaProvider<MarAPI>()
     
-    func createChannel(workspaceID: Int, completionHandler: @escaping (Bool) -> Void) {
-        provider.request(.createChannel(id: workspaceID, model: NewChannelModel(name: name, description: description))) { result in
+    func inviteMember(id: Int, completionHandler: @escaping (Bool) -> Void) {
+        provider.request(.inviteMember(id: id, email: email)) { result in
             switch result {
             case .success(let response):
                 if (200..<300).contains(response.statusCode) {
                     do {
-                        let result = try JSONDecoder().decode(Channel.self, from: response.data)
-                        print("create success - ", response.statusCode, response.data)
+                        let result = try JSONDecoder().decode(WorkspaceMember.self, from: response.data)
+                        print("invite success - ", response.statusCode, response.data)
                         //self.newChannel = result
                         completionHandler(true)
                     } catch {
-                        print("create decoding error - ")
+                        print("invite decoding error - ")
                         completionHandler(false)
                     }
                     
                 } else if (400..<501).contains(response.statusCode) {
-                    print("create failure - ", response.statusCode)
+                    print("invite failure - ", response.statusCode)
                     completionHandler(false)
                     
                 }
             case .failure(let error):
-                print("create Error - ", error)
+                print("invite Error - ", error)
                 completionHandler(false)
+                
             }
         }
     }

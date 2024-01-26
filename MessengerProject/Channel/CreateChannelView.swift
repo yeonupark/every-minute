@@ -9,8 +9,6 @@ import SwiftUI
 
 struct CreateChannelView: View {
     
-    //@Binding var workspaceID: Int
-    
     @ObservedObject var homeViewModel: HomeViewModel
     
     @ObservedObject var createChannelViewModel = CreateChannelViewModel()
@@ -30,10 +28,10 @@ struct CreateChannelView: View {
                     Button(action: {
                         createChannelViewModel.createChannel(workspaceID: homeViewModel.currentWorkspace.workspaceID) { result in
                             if result {
-                                print(createChannelViewModel.newChannel)
-                                isShowingCreateChannelSheet = false
-                                // 홈뷰 갱신
+                                //print(createChannelViewModel.newChannel)
                                 homeViewModel.fetchOneWorkspace(id: homeViewModel.currentWorkspace.workspaceID)
+                                
+                                isShowingCreateChannelSheet = false
                             }
                         }
                     }, label: {
@@ -49,12 +47,5 @@ struct CreateChannelView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(leading: closeBarButton(isShowingBottomSheet: $isShowingCreateChannelSheet))
         }
-        .onAppear {
-            createChannelViewModel.fieldCheck()
-        }
     }
 }
-//
-//#Preview {
-//    CreateChannelView()
-//}
