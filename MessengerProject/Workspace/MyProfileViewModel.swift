@@ -22,7 +22,7 @@ class MyProfileViewModel {
                     UserDefaults.standard.removeObject(forKey: "token")
                     UserDefaults.standard.removeObject(forKey: "refreshToken")
                     UserDefaults.standard.removeObject(forKey: "nickname")
-                    
+                    UserDefaults.standard.removeObject(forKey: "id")
                     completionHandler(true)
                     
                 } else if (400..<501).contains(response.statusCode) {

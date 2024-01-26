@@ -31,7 +31,7 @@ struct HomeView: View {
                     HeaderView(workspaceName: viewModel.workspaces[0].name, workspaceImageThumbnail: viewModel.makeURL(thumbnail: viewModel.currentWorkspace.thumbnail), isShowingSideMenu: $isShowingSideMenu)
                     Divider()
                     Spacer()
-                    WorkspaceView(isLogout: $isLogout)
+                    WorkspaceView(homeViewModel: viewModel, isLogout: $isLogout)
                 }
             }
             if isShowingSideMenu {

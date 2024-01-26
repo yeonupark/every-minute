@@ -45,7 +45,7 @@ class CreateWorkspaceViewModel: ObservableObject {
             case .success(let response):
                 if (200..<300).contains(response.statusCode) {
                     do {
-                        let result = try JSONDecoder().decode(NewWorkspacesResponse.self, from: response.data)
+                        let result = try JSONDecoder().decode(WorkspacesResponseData.self, from: response.data)
                         print(result)
                         print("create success - ", response.statusCode, response.data)
                         completionHandler(true)

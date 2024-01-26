@@ -8,14 +8,17 @@
 import SwiftUI
 
 struct WorkspaceView: View {
+    
+    @ObservedObject var homeViewModel: HomeViewModel
+    
     @State var isNewUserResult = false
     @Binding var isLogout: Bool
     
-    var viewModel =  MyProfileViewModel()
+    var myProFileviewModel =  MyProfileViewModel()
     
     var body: some View {
         TabView {
-            HomeInitialView()
+            HomeInitialView(viewModel: homeViewModel)
                 .tabItem {
                     Image(.tabHomeActive)
                     Text("홈")
@@ -31,7 +34,7 @@ struct WorkspaceView: View {
                     Text("검색")
                 }
             Button(action: {
-                viewModel.callLogout { result in
+                myProFileviewModel.callLogout { result in
                     if result {
                         // 첫화면으로 화면 전환
                         isLogout = true

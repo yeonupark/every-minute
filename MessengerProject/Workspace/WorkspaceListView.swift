@@ -55,8 +55,9 @@ struct WorkspaceListView: View {
             .frame(maxHeight: .infinity)
             .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .fullScreenCover(isPresented: $isShowingCreateView, content: {
+        .sheet(isPresented: $isShowingCreateView, content: {
             CreateWorkspaceView(isShowingCreateView: $isShowingCreateView)
+                .presentationDragIndicator(.visible)
         })
     }
     
@@ -85,7 +86,7 @@ struct WorkspaceListCell: View {
                 .resizable()
                 .frame(width: 44, height: 44)
                 .cornerRadius(8)
-            VStack {
+            VStack(alignment: .leading) {
                 Text(workspace.name)
                     .fontWithLineHeight(font: Typography.bodyBold.font, lineHeight: Typography.bodyBold.lineHeight)
                 Text(dateFormat(originalString: workspace.createdAt))

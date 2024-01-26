@@ -34,6 +34,8 @@
 		4889700B2B4AB07B000C371F /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4889700A2B4AB07B000C371F /* OnboardingView.swift */; };
 		488970102B4AB794000C371F /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4889700F2B4AB794000C371F /* Constant.swift */; };
 		488970122B4C5A48000C371F /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488970112B4C5A48000C371F /* SignUpView.swift */; };
+		48A71C932B638BCA0083B531 /* CreateChannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A71C922B638BCA0083B531 /* CreateChannelView.swift */; };
+		48A71C952B638C030083B531 /* CreateChannelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A71C942B638C030083B531 /* CreateChannelViewModel.swift */; };
 		48A81A292B4FD1D00004681B /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A81A282B4FD1D00004681B /* SignUpViewModel.swift */; };
 		48A81A2B2B4FD52E0004681B /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 48A81A2A2B4FD52E0004681B /* .gitignore */; };
 		48A81A2D2B4FD5730004681B /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A81A2C2B4FD5730004681B /* APIKeys.swift */; };
@@ -86,6 +88,8 @@
 		4889700A2B4AB07B000C371F /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		4889700F2B4AB794000C371F /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		488970112B4C5A48000C371F /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		48A71C922B638BCA0083B531 /* CreateChannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChannelView.swift; sourceTree = "<group>"; };
+		48A71C942B638C030083B531 /* CreateChannelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChannelViewModel.swift; sourceTree = "<group>"; };
 		48A81A282B4FD1D00004681B /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		48A81A2A2B4FD52E0004681B /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		48A81A2C2B4FD5730004681B /* APIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.swift; sourceTree = "<group>"; };
@@ -167,6 +171,7 @@
 		48896FDE2B495D79000C371F /* MessengerProject */ = {
 			isa = PBXGroup;
 			children = (
+				48A71C912B638BBE0083B531 /* Channel */,
 				48460C1E2B54E921003406E0 /* Workspace */,
 				48460C1D2B543289003406E0 /* MessengerProject.entitlements */,
 				488040452B528042001071AE /* Info.plist */,
@@ -225,6 +230,15 @@
 				4889700F2B4AB794000C371F /* Constant.swift */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		48A71C912B638BBE0083B531 /* Channel */ = {
+			isa = PBXGroup;
+			children = (
+				48A71C922B638BCA0083B531 /* CreateChannelView.swift */,
+				48A71C942B638C030083B531 /* CreateChannelViewModel.swift */,
+			);
+			path = Channel;
 			sourceTree = "<group>";
 		};
 		48A81A2E2B4FD7780004681B /* Network */ = {
@@ -380,11 +394,13 @@
 				4889700B2B4AB07B000C371F /* OnboardingView.swift in Sources */,
 				488040442B527858001071AE /* APIModel.swift in Sources */,
 				484C16C92B5FDF6400AF1964 /* MyProfileViewModel.swift in Sources */,
+				48A71C952B638C030083B531 /* CreateChannelViewModel.swift in Sources */,
 				485510EB2B5EC4F000E1BC91 /* HomeInitialView.swift in Sources */,
 				4813F7472B5ED8BB00BC07AF /* WorkspaceView.swift in Sources */,
 				48460C232B56C8E7003406E0 /* HomeEmptyView.swift in Sources */,
 				48741BBC2B59441900E1541D /* CreateWorkspaceViewModel.swift in Sources */,
 				48741BB82B57AC1200E1541D /* InitialView.swift in Sources */,
+				48A71C932B638BCA0083B531 /* CreateChannelView.swift in Sources */,
 				48460C1C2B540164003406E0 /* LoginViewModel.swift in Sources */,
 				484C16D12B6110BB00AF1964 /* WorkspaceListView.swift in Sources */,
 				488970122B4C5A48000C371F /* SignUpView.swift in Sources */,

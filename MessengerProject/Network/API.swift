@@ -14,6 +14,7 @@ enum MarAPI {
     case login(login: LoginModel)
     case logout
     case getWorkspaces
+    case getOneWorkspace(id: Int)
     case createWorkspaces(model: NewWorkspacesModel)
     case deleteWorkspace(id: Int)
 }
@@ -22,7 +23,7 @@ extension MarAPI: Moya.TargetType {
     
     var baseURL: URL {
         switch self {
-        case .emailValidation, .join, .login, .logout, .getWorkspaces, .createWorkspaces, .deleteWorkspace:
+        case .emailValidation, .join, .login, .logout, .getWorkspaces, .getOneWorkspace, .createWorkspaces, .deleteWorkspace:
             return URL(string: APIkeys.baseURL)!
         }
     }
@@ -39,7 +40,7 @@ extension MarAPI: Moya.TargetType {
             return "v1/users/logout"
         case .getWorkspaces, .createWorkspaces:
             return "v1/workspaces"
-        case .deleteWorkspace(let id):
+        case .getOneWorkspace(let id), .deleteWorkspace(let id):
             return "v1/workspaces/\(id)"
         }
         
@@ -49,7 +50,7 @@ extension MarAPI: Moya.TargetType {
         switch self {
         case .emailValidation, .join, .login, .createWorkspaces:
             return .post
-        case .logout, .getWorkspaces:
+        case .logout, .getWorkspaces, .getOneWorkspace:
             return .get
         case .deleteWorkspace:
             return .delete
@@ -66,7 +67,7 @@ extension MarAPI: Moya.TargetType {
             return .requestJSONEncodable(login)
         case .logout:
             return .requestPlain
-        case .getWorkspaces:
+        case .getWorkspaces, .getOneWorkspace:
             return .requestPlain
         case .createWorkspaces(let model):
             
@@ -94,7 +95,7 @@ extension MarAPI: Moya.TargetType {
         case .emailValidation, .join, .login:
             ["Content-Type" : "application/json",
              "SesacKey" : APIkeys.sesacKey]
-        case .logout, .getWorkspaces, .deleteWorkspace:
+        case .logout, .getWorkspaces, .getOneWorkspace, .deleteWorkspace:
             ["Authorization" : UserDefaults.standard.string(forKey: "token") ?? "",
              "SesacKey" : APIkeys.sesacKey]
         case .createWorkspaces:
