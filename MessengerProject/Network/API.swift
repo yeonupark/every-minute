@@ -17,13 +17,14 @@ enum MarAPI {
     case getOneWorkspace(id: Int)
     case createWorkspaces(model: NewWorkspacesModel)
     case deleteWorkspace(id: Int)
+    case createChannel(id: Int, model: NewChannelModel)
 }
 
 extension MarAPI: Moya.TargetType {
     
     var baseURL: URL {
         switch self {
-        case .emailValidation, .join, .login, .logout, .getWorkspaces, .getOneWorkspace, .createWorkspaces, .deleteWorkspace:
+        case .emailValidation, .join, .login, .logout, .getWorkspaces, .getOneWorkspace, .createWorkspaces, .deleteWorkspace, .createChannel:
             return URL(string: APIkeys.baseURL)!
         }
     }
@@ -42,13 +43,15 @@ extension MarAPI: Moya.TargetType {
             return "v1/workspaces"
         case .getOneWorkspace(let id), .deleteWorkspace(let id):
             return "v1/workspaces/\(id)"
+        case .createChannel(let id, _):
+            return "v1/workspaces/\(id)/channels"
         }
         
     }
     
     var method: Moya.Method {
         switch self {
-        case .emailValidation, .join, .login, .createWorkspaces:
+        case .emailValidation, .join, .login, .createWorkspaces, .createChannel:
             return .post
         case .logout, .getWorkspaces, .getOneWorkspace:
             return .get
@@ -87,6 +90,8 @@ extension MarAPI: Moya.TargetType {
             return .uploadMultipart(formData)
         case .deleteWorkspace:
             return .requestPlain
+        case .createChannel(_, let model):
+            return .requestJSONEncodable(NewChannelModel(name: model.name, description: model.description))
         }
     }
     
@@ -95,7 +100,7 @@ extension MarAPI: Moya.TargetType {
         case .emailValidation, .join, .login:
             ["Content-Type" : "application/json",
              "SesacKey" : APIkeys.sesacKey]
-        case .logout, .getWorkspaces, .getOneWorkspace, .deleteWorkspace:
+        case .logout, .getWorkspaces, .getOneWorkspace, .deleteWorkspace, .createChannel:
             ["Authorization" : UserDefaults.standard.string(forKey: "token") ?? "",
              "SesacKey" : APIkeys.sesacKey]
         case .createWorkspaces:

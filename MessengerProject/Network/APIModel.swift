@@ -108,7 +108,7 @@ struct UserData: Decodable {
 */
 
 struct OneWorkspaceData: Codable {
-    let workspaceID: Int
+    var workspaceID: Int
     let description: String?
     let name, thumbnail: String
     let ownerID: Int
@@ -162,3 +162,7 @@ struct WorkspaceMember: Codable, Identifiable {
     }
 }
 
+struct NewChannelModel: Encodable {
+    let name: String
+    let description: String?
+}

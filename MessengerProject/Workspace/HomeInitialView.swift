@@ -10,57 +10,63 @@ import Kingfisher
 
 struct HomeInitialView: View {
     
+    @State var isShowingCreateChannelView = false
+    @State var refreshWorkspace = false
+    
     @ObservedObject var viewModel: HomeViewModel
     @State var isExpanded = true
     
     var body: some View {
-        VStack {
-            List {
-                Section {
-                    Group {
-                        ForEach(viewModel.currentWorkspace.channels) { channel in
-                            ChannelCell(channel: channel)
-                        }
-                        HStack {
-                            Image(.plusIcon)
-                                .resizable()
-                                .frame(width: 18, height: 18)
-                            Text("채널 추가")
-                        }
-                    }
-                    .foregroundColor(ColorSet.Text.secondary)
-                    .fontWithLineHeight(font: Typography.bodyRegular.font, lineHeight: Typography.bodyRegular.lineHeight)
-                    .listRowSeparator(.hidden)
-                } header: {
-                    Text("채널")
-                        .foregroundStyle(ColorSet.Text.primary)
-                        .frame(height: 56)
+        List {
+            Section {
+                ForEach(viewModel.currentWorkspace.channels) { channel in
+                    ChannelCell(channel: channel)
                 }
-                Section {
-                    Group {
-                        ForEach(viewModel.currentWorkspace.workspaceMembers) { member in
-                            DMCell(user: member)
-                        }
-                        HStack {
-                            Image(.plusIcon)
-                                .resizable()
-                                .frame(width: 18, height: 18)
-                            Text("팀원 추가")
-                        }
-                    }
-                    .padding(.leading, 2)
-                    .foregroundColor(ColorSet.Text.secondary)
-                    .fontWithLineHeight(font: Typography.bodyRegular.font, lineHeight: Typography.bodyRegular.lineHeight)
-                    .listRowSeparator(.hidden)
-                } header: {
-                    Text("다이렉트 메세지")
-                        .frame(height: 56)
-                        .foregroundStyle(ColorSet.Text.primary)
-                }
+                .foregroundColor(ColorSet.Text.secondary)
+                .fontWithLineHeight(font: Typography.bodyRegular.font, lineHeight: Typography.bodyRegular.lineHeight)
+                .listRowSeparator(.hidden)
+            } header: {
+                Text("채널")
+                    .foregroundStyle(ColorSet.Text.primary)
+                    .frame(height: 56)
             }
-            .listStyle(.plain)
-            
+            HStack {
+                Image(.plusIcon)
+                    .resizable()
+                    .frame(width: 18, height: 18)
+                Text("채널 추가")
+                    .fontWithLineHeight(font: Typography.bodyRegular.font, lineHeight: Typography.bodyRegular.lineHeight)
+            }
+            .foregroundColor(ColorSet.Text.secondary)
+            .onTapGesture {
+                isShowingCreateChannelView = true
+            }
+            Section {
+                ForEach(viewModel.currentWorkspace.workspaceMembers) { member in
+                    DMCell(user: member)
+                }
+                .foregroundColor(ColorSet.Text.secondary)
+                .fontWithLineHeight(font: Typography.bodyRegular.font, lineHeight: Typography.bodyRegular.lineHeight)
+                .listRowSeparator(.hidden)
+            } header: {
+                Text("다이렉트 메세지")
+                    .frame(height: 56)
+                    .foregroundStyle(ColorSet.Text.primary)
+            }
+            HStack {
+                Image(.plusIcon)
+                    .resizable()
+                    .frame(width: 18, height: 18)
+                Text("팀원 추가")
+                    .fontWithLineHeight(font: Typography.bodyRegular.font, lineHeight: Typography.bodyRegular.lineHeight)
+            }
+            .foregroundColor(ColorSet.Text.secondary)
+            //Spacer()
         }
+        .listStyle(.plain)
+        .sheet(isPresented: $isShowingCreateChannelView, content: {
+            CreateChannelView(homeViewModel: viewModel, isShowingCreateChannelSheet: $isShowingCreateChannelView)
+        })
 //        .onAppear() {
 //            print(viewModel.currentWorkspace)
 //        }
@@ -78,7 +84,7 @@ struct ChannelCell: View {
                 .frame(width: 18, height: 18)
             Text(channel.name)
         }
-        .frame(height: 41)
+        //.frame(height: 41)
     }
 }
 
@@ -96,7 +102,7 @@ struct DMCell: View {
             Text(user.nickname)
             Spacer()
         }
-        .frame(height: 41)
+        //.frame(height: 41)
     
     }
 }
