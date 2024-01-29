@@ -41,6 +41,12 @@
 		48A81A292B4FD1D00004681B /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A81A282B4FD1D00004681B /* SignUpViewModel.swift */; };
 		48A81A2B2B4FD52E0004681B /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 48A81A2A2B4FD52E0004681B /* .gitignore */; };
 		48A81A2D2B4FD5730004681B /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A81A2C2B4FD5730004681B /* APIKeys.swift */; };
+		48DF587E2B68075D0017600C /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 48DF587D2B68075D0017600C /* SocketIO */; };
+		48DF58832B68215B0017600C /* SocketViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DF58822B68215B0017600C /* SocketViewModel.swift */; };
+		48DF58852B6822650017600C /* ChatTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DF58842B6822650017600C /* ChatTable.swift */; };
+		48DF58882B68228F0017600C /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 48DF58872B68228F0017600C /* Realm */; };
+		48DF588A2B68228F0017600C /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 48DF58892B68228F0017600C /* RealmSwift */; };
+		48DF588C2B682A910017600C /* ChatTableRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DF588B2B682A910017600C /* ChatTableRepository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +103,9 @@
 		48A81A282B4FD1D00004681B /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		48A81A2A2B4FD52E0004681B /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		48A81A2C2B4FD5730004681B /* APIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.swift; sourceTree = "<group>"; };
+		48DF58822B68215B0017600C /* SocketViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketViewModel.swift; sourceTree = "<group>"; };
+		48DF58842B6822650017600C /* ChatTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTable.swift; sourceTree = "<group>"; };
+		48DF588B2B682A910017600C /* ChatTableRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableRepository.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,9 +113,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48DF588A2B68228F0017600C /* RealmSwift in Frameworks */,
 				484C16CF2B60142E00AF1964 /* Kingfisher in Frameworks */,
+				48DF587E2B68075D0017600C /* SocketIO in Frameworks */,
 				488040402B52750D001071AE /* Moya in Frameworks */,
 				4880403E2B52750D001071AE /* CombineMoya in Frameworks */,
+				48DF58882B68228F0017600C /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,6 +251,7 @@
 		48A71C912B638BBE0083B531 /* Channel */ = {
 			isa = PBXGroup;
 			children = (
+				48DF587F2B6807760017600C /* Chat */,
 				48A71C922B638BCA0083B531 /* CreateChannelView.swift */,
 				48A71C942B638C030083B531 /* CreateChannelViewModel.swift */,
 				488D77582B639B8700F23B94 /* MemberInviteView.swift */,
@@ -255,6 +268,16 @@
 				488040432B527858001071AE /* APIModel.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		48DF587F2B6807760017600C /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				48DF58822B68215B0017600C /* SocketViewModel.swift */,
+				48DF58842B6822650017600C /* ChatTable.swift */,
+				48DF588B2B682A910017600C /* ChatTableRepository.swift */,
+			);
+			path = Chat;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -277,6 +300,9 @@
 				4880403D2B52750D001071AE /* CombineMoya */,
 				4880403F2B52750D001071AE /* Moya */,
 				484C16CE2B60142E00AF1964 /* Kingfisher */,
+				48DF587D2B68075D0017600C /* SocketIO */,
+				48DF58872B68228F0017600C /* Realm */,
+				48DF58892B68228F0017600C /* RealmSwift */,
 			);
 			productName = MessengerProject;
 			productReference = 48896FDC2B495D79000C371F /* MessengerProject.app */;
@@ -353,6 +379,8 @@
 			packageReferences = (
 				4880403C2B52750D001071AE /* XCRemoteSwiftPackageReference "Moya" */,
 				484C16CD2B60142E00AF1964 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				48DF587C2B68075D0017600C /* XCRemoteSwiftPackageReference "socket.io-client-swift" */,
+				48DF58862B68228F0017600C /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 48896FDD2B495D79000C371F /* Products */;
 			projectDirPath = "";
@@ -413,12 +441,15 @@
 				484C16D12B6110BB00AF1964 /* WorkspaceListView.swift in Sources */,
 				488970122B4C5A48000C371F /* SignUpView.swift in Sources */,
 				48741BBE2B59443B00E1541D /* CreateWorkspaceView.swift in Sources */,
+				48DF58852B6822650017600C /* ChatTable.swift in Sources */,
 				48A81A2D2B4FD5730004681B /* APIKeys.swift in Sources */,
 				48896FE22B495D79000C371F /* ContentView.swift in Sources */,
 				488970102B4AB794000C371F /* Constant.swift in Sources */,
 				48A81A292B4FD1D00004681B /* SignUpViewModel.swift in Sources */,
 				48460C252B56F0D0003406E0 /* HomeViewModel.swift in Sources */,
+				48DF58832B68215B0017600C /* SocketViewModel.swift in Sources */,
 				488040422B527710001071AE /* API.swift in Sources */,
+				48DF588C2B682A910017600C /* ChatTableRepository.swift in Sources */,
 				48460C202B54E93E003406E0 /* WorkspaceInitialView.swift in Sources */,
 				48460C1A2B53FF0F003406E0 /* LoginView.swift in Sources */,
 				48896FE02B495D79000C371F /* MessengerProjectApp.swift in Sources */,
@@ -775,6 +806,22 @@
 				minimumVersion = 15.0.3;
 			};
 		};
+		48DF587C2B68075D0017600C /* XCRemoteSwiftPackageReference "socket.io-client-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/socketio/socket.io-client-swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		48DF58862B68228F0017600C /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -792,6 +839,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4880403C2B52750D001071AE /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = Moya;
+		};
+		48DF587D2B68075D0017600C /* SocketIO */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 48DF587C2B68075D0017600C /* XCRemoteSwiftPackageReference "socket.io-client-swift" */;
+			productName = SocketIO;
+		};
+		48DF58872B68228F0017600C /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 48DF58862B68228F0017600C /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		48DF58892B68228F0017600C /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 48DF58862B68228F0017600C /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

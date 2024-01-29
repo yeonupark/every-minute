@@ -170,3 +170,13 @@ struct NewChannelModel: Encodable {
 struct MemberInvite: Encodable {
     let email: String
 }
+
+struct ChatResponse: Decodable {
+    let channel_id: Int
+    let channelName: String
+    let chat_id: Int
+    let content: String?
+    let createdAt: String
+    let files: [String?]
+    let user: WorkspaceMember
+}
