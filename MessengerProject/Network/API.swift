@@ -19,13 +19,14 @@ enum MarAPI {
     case deleteWorkspace(id: Int)
     case createChannel(id: Int, model: NewChannelModel)
     case inviteMember(id: Int, email: String)
+    case sendChat(channelName: String, workspaceID: Int, content: String, files: [String])
 }
 
 extension MarAPI: Moya.TargetType {
     
     var baseURL: URL {
         switch self {
-        case .emailValidation, .join, .login, .logout, .getWorkspaces, .getOneWorkspace, .createWorkspaces, .deleteWorkspace, .createChannel, .inviteMember:
+        case .emailValidation, .join, .login, .logout, .getWorkspaces, .getOneWorkspace, .createWorkspaces, .deleteWorkspace, .createChannel, .inviteMember, .sendChat:
             return URL(string: APIkeys.baseURL)!
         }
     }
@@ -48,13 +49,15 @@ extension MarAPI: Moya.TargetType {
             return "v1/workspaces/\(id)/channels"
         case .inviteMember(let id, _):
             return "v1/workspaces/\(id)/members"
+        case .sendChat(let name, let id, _, _):
+            return "v1/workspaces/\(id)/channels/\(name)/chats"
         }
         
     }
     
     var method: Moya.Method {
         switch self {
-        case .emailValidation, .join, .login, .createWorkspaces, .createChannel, .inviteMember:
+        case .emailValidation, .join, .login, .createWorkspaces, .createChannel, .inviteMember, .sendChat:
             return .post
         case .logout, .getWorkspaces, .getOneWorkspace:
             return .get
@@ -97,6 +100,19 @@ extension MarAPI: Moya.TargetType {
             return .requestJSONEncodable(NewChannelModel(name: model.name, description: model.description))
         case .inviteMember(_, let email):
             return .requestJSONEncodable(MemberInvite(email: email))
+        case .sendChat(_, _, let content, let files):
+            
+            var formData: [MultipartFormData] = []
+            
+            for file in files {
+                guard let imageData = Data(base64Encoded: file) else {
+                    return .requestPlain
+                }
+                formData.append(MultipartFormData(provider: .data(imageData), name: "image", fileName: "image.jpg", mimeType: "image/jpeg"))
+            }
+            formData.append(MultipartFormData(provider: .data(content.data(using: .utf8)!), name: "content"))
+            
+            return .requestPlain
         }
     }
     
@@ -108,7 +124,7 @@ extension MarAPI: Moya.TargetType {
         case .logout, .getWorkspaces, .getOneWorkspace, .deleteWorkspace, .createChannel, .inviteMember:
             ["Authorization" : UserDefaults.standard.string(forKey: "token") ?? "",
              "SesacKey" : APIkeys.sesacKey]
-        case .createWorkspaces:
+        case .createWorkspaces, .sendChat:
             ["Content-Type" : "multipart/form-data",
              "Authorization" : UserDefaults.standard.string(forKey: "token") ?? "",
              "SesacKey" : APIkeys.sesacKey]

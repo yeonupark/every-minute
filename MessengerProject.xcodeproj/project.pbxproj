@@ -47,6 +47,8 @@
 		48DF58882B68228F0017600C /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 48DF58872B68228F0017600C /* Realm */; };
 		48DF588A2B68228F0017600C /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 48DF58892B68228F0017600C /* RealmSwift */; };
 		48DF588C2B682A910017600C /* ChatTableRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DF588B2B682A910017600C /* ChatTableRepository.swift */; };
+		48DF58902B682C360017600C /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DF588F2B682C360017600C /* ChatView.swift */; };
+		48DF58922B682C810017600C /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DF58912B682C810017600C /* ChatViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +108,8 @@
 		48DF58822B68215B0017600C /* SocketViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketViewModel.swift; sourceTree = "<group>"; };
 		48DF58842B6822650017600C /* ChatTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTable.swift; sourceTree = "<group>"; };
 		48DF588B2B682A910017600C /* ChatTableRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableRepository.swift; sourceTree = "<group>"; };
+		48DF588F2B682C360017600C /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		48DF58912B682C810017600C /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -256,6 +260,8 @@
 				48A71C942B638C030083B531 /* CreateChannelViewModel.swift */,
 				488D77582B639B8700F23B94 /* MemberInviteView.swift */,
 				488D775A2B639BD400F23B94 /* MemberInviteViewModel.swift */,
+				48DF588F2B682C360017600C /* ChatView.swift */,
+				48DF58912B682C810017600C /* ChatViewModel.swift */,
 			);
 			path = Channel;
 			sourceTree = "<group>";
@@ -426,6 +432,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4889700B2B4AB07B000C371F /* OnboardingView.swift in Sources */,
+				48DF58902B682C360017600C /* ChatView.swift in Sources */,
 				488040442B527858001071AE /* APIModel.swift in Sources */,
 				484C16C92B5FDF6400AF1964 /* MyProfileViewModel.swift in Sources */,
 				488D775B2B639BD400F23B94 /* MemberInviteViewModel.swift in Sources */,
@@ -452,6 +459,7 @@
 				48DF588C2B682A910017600C /* ChatTableRepository.swift in Sources */,
 				48460C202B54E93E003406E0 /* WorkspaceInitialView.swift in Sources */,
 				48460C1A2B53FF0F003406E0 /* LoginView.swift in Sources */,
+				48DF58922B682C810017600C /* ChatViewModel.swift in Sources */,
 				48896FE02B495D79000C371F /* MessengerProjectApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
