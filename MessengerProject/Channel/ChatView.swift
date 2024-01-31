@@ -19,19 +19,29 @@ struct ChatView: View {
                 .frame(height: 45)
             Divider()
             ScrollView {
-                ForEach(viewModel.messages) { message in
+                ForEach(viewModel.savedChat) { message in
                     ChatCell(message: message)
                 }
             }
             ChatWriteView(viewModel: viewModel, channel: $channel)
         }
         .onAppear() {
-            viewModel.checkUnreadMessages(id: channel.workspaceID, name: channel.name, after: viewModel.dateCursor) { result in
-                if result != 0 {
-                    viewModel.fetchChat(date: viewModel.dateCursor, name: channel.name, id: channel.workspaceID)
-                }
+            viewModel.checkRealm()
+            if viewModel.savedChat.isEmpty {
+                viewModel.fetchChat(date: "", name: channel.name, id: channel.workspaceID)
+            }
+            else { 
+                viewModel.checkUnreadMessages(id: channel.workspaceID, name: channel.name, after: viewModel.dateCursor) { result in
+                    
+                    if result == 0 {
+                        // 바로 소켓 연결
+                    } else {
+                        viewModel.fetchChat(date: viewModel.dateCursor, name: channel.name, id: channel.workspaceID)
+                    }
+            }
             }
         }
+            
     }
 }
 
@@ -74,7 +84,7 @@ struct ChatCell: View {
             return String(timeSubstring)
     }
     
-    var message: ChatResponse
+    var message: ChatTable //ChatResponse
     
     var body: some View {
         HStack(alignment: .top) {
@@ -83,7 +93,7 @@ struct ChatCell: View {
                 .frame(width: 34, height: 34)
                 .cornerRadius(8)
             VStack(alignment: .leading) {
-                Text(message.user.nickname)
+                Text(message.user?.nickname ?? "")
                     .fontWithLineHeight(font: Typography.bodyBold.font, lineHeight: Typography.bodyBold.lineHeight)
                 Spacer(minLength: 5)
                 HStack(alignment: .bottom) {

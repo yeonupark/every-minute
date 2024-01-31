@@ -18,6 +18,19 @@ class ChatTableRepository: ChatTableRepositoryType {
     
     private let realm = try! Realm()
     
+    func printRealmLocation() {
+        print("realm 위치: ", Realm.Configuration.defaultConfiguration.fileURL!)
+    }
+    
+    func checkSchemaVersion() {
+        do {
+            let version = try schemaVersionAtURL(realm.configuration.fileURL!)
+            print("Schema Version: \(version)")
+        } catch {
+            print(error)
+        }
+    }
+    
     func fetch() -> RealmSwift.Results<ChatTable> {
         
         let data = realm.objects(ChatTable.self)

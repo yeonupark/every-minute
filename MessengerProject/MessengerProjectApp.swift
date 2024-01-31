@@ -7,9 +7,14 @@
 
 import SwiftUI
 import Kingfisher
+import RealmSwift
 
 @main
-struct MessengerProjectApp: App {
+struct MessengerProjectApp: SwiftUI.App {
+    
+    init() {
+        configureRealm()
+    }
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
@@ -35,6 +40,15 @@ struct MessengerProjectApp: App {
                 }
             }
         }
+    
+    func configureRealm() {
+        let config = Realm.Configuration(schemaVersion: 10) { migration, oldSchemaVersion in
+            
+            if oldSchemaVersion < 1 { } // UserTable에 id 추가
+            
+        }
+        Realm.Configuration.defaultConfiguration = config
+    }
 }
 
 class AppDelegate: NSObject, UIApplicationDelegate {

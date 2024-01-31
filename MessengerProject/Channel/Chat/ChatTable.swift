@@ -8,7 +8,7 @@
 import Foundation
 import RealmSwift
 
-class ChatTable: Object {
+class ChatTable: Object, Identifiable {
     
     @Persisted(primaryKey: true) var _id: ObjectId
     
@@ -18,9 +18,9 @@ class ChatTable: Object {
     @Persisted var content: String?
     @Persisted var createdAt: String
     @Persisted var files: List<String?>
-    @Persisted var user: Object
+    @Persisted var user: UserTable?
     
-    convenience init(channel_id: Int, channelName: String, chat_id: Int, content: String? = nil, createdAt: String, files: List<String?>, user: Object) {
+    convenience init(channel_id: Int, channelName: String, chat_id: Int, content: String? = nil, createdAt: String, files: List<String?>, user: UserTable) {
         
         self.init()
         
@@ -32,4 +32,24 @@ class ChatTable: Object {
         self.files = files
         self.user = user
     }
+}
+
+class UserTable: Object {
+    
+    @Persisted(primaryKey: true) var _id: ObjectId
+    
+    @Persisted var user_id: Int
+    @Persisted var email: String
+    @Persisted var nickname: String
+    @Persisted var profileImage: String?
+    
+    convenience init(user_id: Int, email: String, nickname: String, profileImage: String? = nil) {
+        self.init()
+        
+        self.user_id = user_id
+        self.email = email
+        self.nickname = nickname
+        self.profileImage = profileImage
+    }
+    
 }

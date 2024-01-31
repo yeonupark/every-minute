@@ -6,15 +6,50 @@
 //
 
 import Foundation
+import Combine
 import Moya
+import Realm
+import RealmSwift
 
 class ChatViewModel: ObservableObject {
     
-    @Published var dateCursor = "2024-01-29T12:51:51.292Z"
-    @Published var messages: [ChatResponse] = []
+    let chatRepository = ChatTableRepository()
+    
+    @Published var savedChat: Results<ChatTable>
+    @Published var dateCursor = ""
     @Published var content = ""
     
-    //@Published var channel: Channel = Channel(workspaceID: 0, channelID: 0, name: "한국영화", description: nil, ownerID: 0, channelPrivate: 0, createdAt: "")
+    init() {
+        savedChat = chatRepository.fetch()
+        setDateCursor()
+    }
+    
+    private var cancellables = Set<AnyCancellable>()
+    
+    func setDateCursor() {
+        $savedChat
+            .map { tablelist in
+                return tablelist.last?.createdAt ?? ""
+            }
+            .eraseToAnyPublisher()
+            .receive(on: RunLoop.main)
+            .assign(to: \.dateCursor, on: self)
+            .store(in: &cancellables)
+    }
+    
+    func checkRealm() {
+        chatRepository.printRealmLocation()
+        chatRepository.checkSchemaVersion()
+        //print("저장된 채팅: ", savedChat)
+    }
+    
+    func saveToRealm(newChat: ChatResponse) {
+        let filesList = List<String?>()
+        filesList.append(objectsIn: newChat.files)
+        let userTable = UserTable(user_id: newChat.user.userID, email: newChat.user.email, nickname: newChat.user.nickname)
+        let chatTable = ChatTable(channel_id: newChat.channel_id, channelName: newChat.channelName, chat_id: newChat.chat_id, content: newChat.content, createdAt: newChat.createdAt, files: filesList, user: userTable)
+        chatRepository.addItem(item: chatTable)
+    }
     
     private let provider = MoyaProvider<MarAPI>()
     
@@ -27,7 +62,9 @@ class ChatViewModel: ObservableObject {
                     do {
                         let result = try JSONDecoder().decode(ChatResponse.self, from: response.data)
                         print("send chat success - ", response.statusCode, response.data)
-                        print(result)
+                        
+                        self.saveToRealm(newChat: result)
+                        self.savedChat = self.chatRepository.fetch()
                         completionHandler(true)
                     } catch {
                         print("send chat decoding error - ", error.localizedDescription)
@@ -56,7 +93,12 @@ class ChatViewModel: ObservableObject {
                     do {
                         let resultData = try JSONDecoder().decode([ChatResponse].self, from: response.data)
                         print("fetch chat success - ", response.statusCode, response.data)
-                        self.messages = resultData
+                    
+                        for data in resultData {
+                            self.saveToRealm(newChat: data)
+                        }
+                        self.savedChat = self.chatRepository.fetch()
+                        
                     } catch {
                         print("fetch chat decoding error - ", error)
                     }
@@ -78,9 +120,8 @@ class ChatViewModel: ObservableObject {
                 if (200..<300).contains(response.statusCode) {
                     do {
                         let resultData = try JSONDecoder().decode(UnreadMessagesResponse.self, from: response.data)
-                        print("checkunreads success - ", response.statusCode, response.data)
-                        print(resultData)
-                        completionHandler(resultData.count)
+                        print("checkunreads success - ", resultData.count-1)
+                        completionHandler(resultData.count-1)
                     } catch {
                         print("checkunreads decoding error - ")
                         completionHandler(0)
