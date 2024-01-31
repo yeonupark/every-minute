@@ -11,33 +11,41 @@ struct ChatView: View {
     
     @ObservedObject var viewModel = ChatViewModel()
     
+    @State var channel: Channel
+    
     var body: some View {
-        NavigationView {
-            VStack {
-                ChatHeaderView()
-                ScrollView {
-                    ChatCell()
-                    ChatCell()
-                    ChatCell()
-                    ChatCell()
-                }
-                ChatWriteView()
+        VStack {
+            ChatHeaderView(channel: $channel)
+                .frame(height: 50)
+            Divider()
+            ScrollView {
+                ChatCell()
+                ChatCell()
+                ChatCell()
+                ChatCell()
             }
+            ChatWriteView(viewModel: viewModel, channel: $channel)
+        }
+        .onAppear() {
+            
         }
     }
 }
 
-#Preview {
-    ChatView()
-}
-
 struct ChatHeaderView: View {
+    
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Binding var channel: Channel
+    
     var body: some View {
         HStack {
             Image(.back)
                 .padding()
+                .onTapGesture {
+                    presentationMode.wrappedValue.dismiss()
+                }
             Spacer()
-            Text("# 한국영화")
+            Text("# \(channel.name)")
                 .fontWithLineHeight(font: Typography.title1.font, lineHeight: Typography.title1.lineHeight)
             Text("14")
                 .foregroundColor(ColorSet.Text.secondary)
@@ -47,6 +55,7 @@ struct ChatHeaderView: View {
                 .frame(width: 18, height: 18)
                 .padding()
         }
+        .navigationBarBackButtonHidden()
     }
 }
 
@@ -82,6 +91,8 @@ struct ChatCell: View {
 
 struct ChatWriteView: View {
     
+    @ObservedObject var viewModel: ChatViewModel
+    @Binding var channel: Channel
     @State var inputChat = ""
     
     var body: some View {
@@ -95,10 +106,18 @@ struct ChatWriteView: View {
                     .foregroundColor(ColorSet.Text.secondary)
             }
             let icon = inputChat.isEmpty ? Image(.chatSendIcon) : Image(.chatSendIconEnabled)
-            icon
-                .resizable()
-                .frame(width: 24, height: 24)
-                .padding(EdgeInsets(top: 7, leading: 0, bottom: 7, trailing: 7))
+            Button(action: {
+                viewModel.sendChat(channelName: channel.name, workspaceID: channel.workspaceID) { result in
+                    if result {
+                        print("성공!")
+                    }
+                }
+            }, label: {
+                icon
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .padding(EdgeInsets(top: 7, leading: 0, bottom: 7, trailing: 7))
+            })
         }
         .background {
             RoundedRectangle(cornerRadius: 8)

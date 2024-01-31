@@ -20,18 +20,20 @@ struct HomeView: View {
     
     var body: some View {
         ZStack {
-            VStack {
-                if viewModel.isEmptyView {
-                    HeaderView(workspaceName: "No Workspace", workspaceImageThumbnail: "", isShowingSideMenu: $isShowingSideMenu)
-                    Divider()
-                    Spacer()
-                    EmptyView()
-                    Divider()
-                } else {
-                    HeaderView(workspaceName: viewModel.workspaces[0].name, workspaceImageThumbnail: viewModel.makeURL(thumbnail: viewModel.currentWorkspace.thumbnail), isShowingSideMenu: $isShowingSideMenu)
-                    Divider()
-                    Spacer()
-                    WorkspaceView(homeViewModel: viewModel, isLogout: $isLogout)
+            NavigationView {
+                VStack {
+                    if viewModel.isEmptyView {
+                        HeaderView(workspaceName: "No Workspace", workspaceImageThumbnail: "", isShowingSideMenu: $isShowingSideMenu)
+                        Divider()
+                        Spacer()
+                        EmptyView()
+                        Divider()
+                    } else {
+                        HeaderView(workspaceName: viewModel.workspaces[0].name, workspaceImageThumbnail: viewModel.makeURL(thumbnail: viewModel.currentWorkspace.thumbnail), isShowingSideMenu: $isShowingSideMenu)
+                        Divider()
+                        Spacer()
+                        WorkspaceView(homeViewModel: viewModel, isLogout: $isLogout)
+                    }
                 }
             }
             if isShowingSideMenu {

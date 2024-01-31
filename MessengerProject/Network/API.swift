@@ -112,7 +112,7 @@ extension MarAPI: Moya.TargetType {
             }
             formData.append(MultipartFormData(provider: .data(content.data(using: .utf8)!), name: "content"))
             
-            return .requestPlain
+            return .uploadMultipart(formData)
         }
     }
     

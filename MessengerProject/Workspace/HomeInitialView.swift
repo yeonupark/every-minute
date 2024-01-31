@@ -15,13 +15,17 @@ struct HomeInitialView: View {
     @State var refreshWorkspace = false
     
     @ObservedObject var viewModel: HomeViewModel
-    @State var isExpanded = true
     
     var body: some View {
         List {
             Section {
                 ForEach(viewModel.currentWorkspace.channels) { channel in
-                    ChannelCell(channel: channel)
+                    NavigationLink {
+                        ChatView(channel: channel)
+                            
+                    } label: {
+                        ChannelCell(channel: channel)
+                    }
                 }
                 .foregroundColor(ColorSet.Text.secondary)
                 .fontWithLineHeight(font: Typography.bodyRegular.font, lineHeight: Typography.bodyRegular.lineHeight)
