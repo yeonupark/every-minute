@@ -12,7 +12,7 @@ class ChatViewModel: ObservableObject {
     
     @Published var content = "무야호"
     
-    @Published var channel: Channel = Channel(workspaceID: 0, channelID: 0, name: "한국영화", description: nil, ownerID: 0, channelPrivate: 0, createdAt: "")
+    //@Published var channel: Channel = Channel(workspaceID: 0, channelID: 0, name: "한국영화", description: nil, ownerID: 0, channelPrivate: 0, createdAt: "")
     
     private let provider = MoyaProvider<MarAPI>()
     
@@ -25,7 +25,6 @@ class ChatViewModel: ObservableObject {
                     do {
                         let result = try JSONDecoder().decode(ChatResponse.self, from: response.data)
                         print("send chat success - ", response.statusCode, response.data)
-                        print(result)
                         completionHandler(true)
                     } catch {
                         print("send chat decoding error - ")
@@ -49,7 +48,28 @@ class ChatViewModel: ObservableObject {
         
     }
     
-    func checkUnreadMessages() {
+    func checkUnreadMessages(id: Int, name: String, after: String?) {
         
+        provider.request(.checkUnreads(id: id, name: name, after: after)) { result in
+            switch result {
+            case .success(let response):
+                if (200..<300).contains(response.statusCode) {
+                    do {
+                        let resultData = try JSONDecoder().decode(UnreadMessagesResponse.self, from: response.data)
+                        print("checkunreads success - ", response.statusCode, response.data)
+                        print(resultData)
+                    } catch {
+                        print("checkunreads decoding error - ")
+                    }
+                    
+                } else if (400..<501).contains(response.statusCode) {
+                    print("checkunreads failure - ", response.statusCode)
+                    
+                }
+            case .failure(let error):
+                print("send chat Error - ", error)
+            }
+        
+        }
     }
 }

@@ -107,11 +107,12 @@ struct ChatWriteView: View {
             }
             let icon = inputChat.isEmpty ? Image(.chatSendIcon) : Image(.chatSendIconEnabled)
             Button(action: {
-                viewModel.sendChat(channelName: channel.name, workspaceID: channel.workspaceID) { result in
-                    if result {
-                        print("성공!")
-                    }
-                }
+                viewModel.checkUnreadMessages(id: channel.workspaceID, name: channel.name, after: "")
+//                viewModel.sendChat(channelName: channel.name, workspaceID: channel.workspaceID) { result in
+//                    if result {
+//                        print("성공!")
+//                    }
+//                }
             }, label: {
                 icon
                     .resizable()

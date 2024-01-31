@@ -20,13 +20,14 @@ enum MarAPI {
     case createChannel(id: Int, model: NewChannelModel)
     case inviteMember(id: Int, email: String)
     case sendChat(channelName: String, workspaceID: Int, content: String, files: [String])
+    case checkUnreads(id: Int, name: String, after: String?)
 }
 
 extension MarAPI: Moya.TargetType {
     
     var baseURL: URL {
         switch self {
-        case .emailValidation, .join, .login, .logout, .getWorkspaces, .getOneWorkspace, .createWorkspaces, .deleteWorkspace, .createChannel, .inviteMember, .sendChat:
+        case .emailValidation, .join, .login, .logout, .getWorkspaces, .getOneWorkspace, .createWorkspaces, .deleteWorkspace, .createChannel, .inviteMember, .sendChat, .checkUnreads:
             return URL(string: APIkeys.baseURL)!
         }
     }
@@ -51,6 +52,8 @@ extension MarAPI: Moya.TargetType {
             return "v1/workspaces/\(id)/members"
         case .sendChat(let name, let id, _, _):
             return "v1/workspaces/\(id)/channels/\(name)/chats"
+        case .checkUnreads(let id, let name, _):
+            return "v1/workspaces/\(id)/channels/\(name)/unreads"
         }
         
     }
@@ -59,7 +62,7 @@ extension MarAPI: Moya.TargetType {
         switch self {
         case .emailValidation, .join, .login, .createWorkspaces, .createChannel, .inviteMember, .sendChat:
             return .post
-        case .logout, .getWorkspaces, .getOneWorkspace:
+        case .logout, .getWorkspaces, .getOneWorkspace, .checkUnreads:
             return .get
         case .deleteWorkspace:
             return .delete
@@ -113,6 +116,8 @@ extension MarAPI: Moya.TargetType {
             formData.append(MultipartFormData(provider: .data(content.data(using: .utf8)!), name: "content"))
             
             return .uploadMultipart(formData)
+        case .checkUnreads(_, _, let after):
+            return .requestParameters(parameters: ["after" : after], encoding: URLEncoding.queryString)
         }
     }
     
@@ -121,7 +126,7 @@ extension MarAPI: Moya.TargetType {
         case .emailValidation, .join, .login:
             ["Content-Type" : "application/json",
              "SesacKey" : APIkeys.sesacKey]
-        case .logout, .getWorkspaces, .getOneWorkspace, .deleteWorkspace, .createChannel, .inviteMember:
+        case .logout, .getWorkspaces, .getOneWorkspace, .deleteWorkspace, .createChannel, .inviteMember, .checkUnreads:
             ["Authorization" : UserDefaults.standard.string(forKey: "token") ?? "",
              "SesacKey" : APIkeys.sesacKey]
         case .createWorkspaces, .sendChat:

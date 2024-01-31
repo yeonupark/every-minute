@@ -180,3 +180,9 @@ struct ChatResponse: Decodable {
     let files: [String?]
     let user: WorkspaceMember
 }
+
+struct UnreadMessagesResponse: Decodable {
+    let channel_id: Int
+    let name: String
+    let count: Int
+}
