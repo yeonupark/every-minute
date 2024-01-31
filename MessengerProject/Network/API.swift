@@ -20,14 +20,15 @@ enum MarAPI {
     case createChannel(id: Int, model: NewChannelModel)
     case inviteMember(id: Int, email: String)
     case sendChat(channelName: String, workspaceID: Int, content: String, files: [String])
-    case checkUnreads(id: Int, name: String, after: String?)
+    case checkUnreads(id: Int, name: String, after: String)
+    case getMessages(cursor_date: String, name: String, id: Int)
 }
 
 extension MarAPI: Moya.TargetType {
     
     var baseURL: URL {
         switch self {
-        case .emailValidation, .join, .login, .logout, .getWorkspaces, .getOneWorkspace, .createWorkspaces, .deleteWorkspace, .createChannel, .inviteMember, .sendChat, .checkUnreads:
+        case .emailValidation, .join, .login, .logout, .getWorkspaces, .getOneWorkspace, .createWorkspaces, .deleteWorkspace, .createChannel, .inviteMember, .sendChat, .checkUnreads, .getMessages:
             return URL(string: APIkeys.baseURL)!
         }
     }
@@ -50,7 +51,7 @@ extension MarAPI: Moya.TargetType {
             return "v1/workspaces/\(id)/channels"
         case .inviteMember(let id, _):
             return "v1/workspaces/\(id)/members"
-        case .sendChat(let name, let id, _, _):
+        case .sendChat(let name, let id, _, _), .getMessages(_, let name, let id):
             return "v1/workspaces/\(id)/channels/\(name)/chats"
         case .checkUnreads(let id, let name, _):
             return "v1/workspaces/\(id)/channels/\(name)/unreads"
@@ -62,7 +63,7 @@ extension MarAPI: Moya.TargetType {
         switch self {
         case .emailValidation, .join, .login, .createWorkspaces, .createChannel, .inviteMember, .sendChat:
             return .post
-        case .logout, .getWorkspaces, .getOneWorkspace, .checkUnreads:
+        case .logout, .getWorkspaces, .getOneWorkspace, .checkUnreads, .getMessages:
             return .get
         case .deleteWorkspace:
             return .delete
@@ -118,6 +119,8 @@ extension MarAPI: Moya.TargetType {
             return .uploadMultipart(formData)
         case .checkUnreads(_, _, let after):
             return .requestParameters(parameters: ["after" : after], encoding: URLEncoding.queryString)
+        case .getMessages(let cursor_date, _, _):
+            return .requestParameters(parameters: ["cursor_date" : cursor_date], encoding: URLEncoding.queryString)
         }
     }
     
@@ -126,7 +129,7 @@ extension MarAPI: Moya.TargetType {
         case .emailValidation, .join, .login:
             ["Content-Type" : "application/json",
              "SesacKey" : APIkeys.sesacKey]
-        case .logout, .getWorkspaces, .getOneWorkspace, .deleteWorkspace, .createChannel, .inviteMember, .checkUnreads:
+        case .logout, .getWorkspaces, .getOneWorkspace, .deleteWorkspace, .createChannel, .inviteMember, .checkUnreads, .getMessages:
             ["Authorization" : UserDefaults.standard.string(forKey: "token") ?? "",
              "SesacKey" : APIkeys.sesacKey]
         case .createWorkspaces, .sendChat:

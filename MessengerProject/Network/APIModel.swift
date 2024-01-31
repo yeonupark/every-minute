@@ -171,7 +171,7 @@ struct MemberInvite: Encodable {
     let email: String
 }
 
-struct ChatResponse: Decodable {
+struct ChatResponse: Decodable, Identifiable {
     let channel_id: Int
     let channelName: String
     let chat_id: Int
@@ -179,6 +179,10 @@ struct ChatResponse: Decodable {
     let createdAt: String
     let files: [String?]
     let user: WorkspaceMember
+    
+    var id: Int {
+        return chat_id
+    }
 }
 
 struct UnreadMessagesResponse: Decodable {

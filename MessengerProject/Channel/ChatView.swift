@@ -16,18 +16,21 @@ struct ChatView: View {
     var body: some View {
         VStack {
             ChatHeaderView(channel: $channel)
-                .frame(height: 50)
+                .frame(height: 45)
             Divider()
             ScrollView {
-                ChatCell()
-                ChatCell()
-                ChatCell()
-                ChatCell()
+                ForEach(viewModel.messages) { message in
+                    ChatCell(message: message)
+                }
             }
             ChatWriteView(viewModel: viewModel, channel: $channel)
         }
         .onAppear() {
-            
+            viewModel.checkUnreadMessages(id: channel.workspaceID, name: channel.name, after: viewModel.dateCursor) { result in
+                if result != 0 {
+                    viewModel.fetchChat(date: viewModel.dateCursor, name: channel.name, id: channel.workspaceID)
+                }
+            }
         }
     }
 }
@@ -40,13 +43,15 @@ struct ChatHeaderView: View {
     var body: some View {
         HStack {
             Image(.back)
+                .resizable()
+                .frame(width: 12, height: 20)
                 .padding()
                 .onTapGesture {
                     presentationMode.wrappedValue.dismiss()
                 }
             Spacer()
             Text("# \(channel.name)")
-                .fontWithLineHeight(font: Typography.title1.font, lineHeight: Typography.title1.lineHeight)
+                .font(.headline)
             Text("14")
                 .foregroundColor(ColorSet.Text.secondary)
             Spacer()
@@ -60,6 +65,17 @@ struct ChatHeaderView: View {
 }
 
 struct ChatCell: View {
+    
+    func dateFormat(dateString: String) -> String {
+        let timeStartIndex = dateString.index(dateString.startIndex, offsetBy: 11)
+            let timeEndIndex = dateString.index(dateString.startIndex, offsetBy: 16)
+            let timeSubstring = dateString[timeStartIndex..<timeEndIndex]
+
+            return String(timeSubstring)
+    }
+    
+    var message: ChatResponse
+    
     var body: some View {
         HStack(alignment: .top) {
             Image(.noPhotoIcon)
@@ -67,23 +83,26 @@ struct ChatCell: View {
                 .frame(width: 34, height: 34)
                 .cornerRadius(8)
             VStack(alignment: .leading) {
-                Text("고래밥")
+                Text(message.user.nickname)
+                    .fontWithLineHeight(font: Typography.bodyBold.font, lineHeight: Typography.bodyBold.lineHeight)
                 Spacer(minLength: 5)
-                Text("저희 수료식이 언제였죠? 영등포 캠퍼스가 어디에 있었죠?")
-                    .padding(EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8))
-                    .overlay {
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(ColorSet.Brand.inactive, lineWidth: 1)
-                    }
-                // photo view
+                HStack(alignment: .bottom) {
+                    Text(message.content ?? "")
+                        .fontWithLineHeight(font: Typography.bodyRegular.font, lineHeight: Typography.bodyRegular.lineHeight)
+                        .padding(EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8))
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(ColorSet.Brand.inactive, lineWidth: 1)
+                            // photo view
+                        }
+                    //.frame(maxWidth: 244, alignment: .leading)
+                    Text(dateFormat(dateString: message.createdAt))
+                        .fontWithLineHeight(font: Typography.bodyRegular.font, lineHeight: Typography.bodyRegular.lineHeight)
+                        .foregroundColor(ColorSet.Text.secondary)
+                    Spacer()
+                }
             }
-            .frame(maxWidth: 244)
-            VStack {
-                Spacer()
-                Text("08:18 오전")
-                    .fontWithLineHeight(font: Typography.bodyRegular.font, lineHeight: Typography.bodyRegular.lineHeight)
-                    .foregroundColor(ColorSet.Text.secondary)
-            }
+            Spacer()
         }
         .padding(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
     }
@@ -93,7 +112,6 @@ struct ChatWriteView: View {
     
     @ObservedObject var viewModel: ChatViewModel
     @Binding var channel: Channel
-    @State var inputChat = ""
     
     var body: some View {
         HStack {
@@ -101,18 +119,17 @@ struct ChatWriteView: View {
                 .resizable()
                 .frame(width: 22, height: 20)
                 .padding(EdgeInsets(top: 9, leading: 12, bottom: 9, trailing: 1))
-            TextField(text: $inputChat) {
+            TextField(text: $viewModel.content) {
                 Text("메세지를 입력하세요")
                     .foregroundColor(ColorSet.Text.secondary)
             }
-            let icon = inputChat.isEmpty ? Image(.chatSendIcon) : Image(.chatSendIconEnabled)
+            let icon = viewModel.content.isEmpty ? Image(.chatSendIcon) : Image(.chatSendIconEnabled)
             Button(action: {
-                viewModel.checkUnreadMessages(id: channel.workspaceID, name: channel.name, after: "")
-//                viewModel.sendChat(channelName: channel.name, workspaceID: channel.workspaceID) { result in
-//                    if result {
-//                        print("성공!")
-//                    }
-//                }
+                viewModel.sendChat(channelName: channel.name, workspaceID: channel.workspaceID) { result in
+                    if result {
+                        print("채팅 보내기 성공!")
+                    }
+                }
             }, label: {
                 icon
                     .resizable()

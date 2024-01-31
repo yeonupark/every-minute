@@ -71,13 +71,16 @@ struct WorkspaceListCell: View {
     
     var workspace: WorkspacesResponseData
     
-    func dateFormat(originalString: String) -> String {
-        let dateFormatter = DateFormatter()
-        
-        dateFormatter.dateFormat = "yy.MM.dd"
-        let convertedDate = dateFormatter.date(from: originalString) ?? Date()
-        let result = dateFormatter.string(from: convertedDate)
-        return result
+    func dateFormat(dateString: String) -> String {
+        guard dateString.count >= 10 else {
+                return ""
+            }
+
+            let startIndex = dateString.index(dateString.startIndex, offsetBy: 2)
+            let endIndex = dateString.index(dateString.startIndex, offsetBy: 10)
+            let dateSubstring = dateString[startIndex..<endIndex]
+
+            return String(dateSubstring)
     }
     
     var body: some View {
@@ -89,7 +92,7 @@ struct WorkspaceListCell: View {
             VStack(alignment: .leading) {
                 Text(workspace.name)
                     .fontWithLineHeight(font: Typography.bodyBold.font, lineHeight: Typography.bodyBold.lineHeight)
-                Text(dateFormat(originalString: workspace.createdAt))
+                Text(dateFormat(dateString: workspace.createdAt))
                     .fontWithLineHeight(font: Typography.bodyRegular.font, lineHeight: Typography.bodyRegular.lineHeight)
                     .foregroundColor(ColorSet.Text.secondary)
             }
