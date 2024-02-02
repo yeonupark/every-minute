@@ -13,20 +13,33 @@ struct ChatView: View {
     
     @State var channel: Channel
     
+    @State private var bottomID: Int?
+    
     var body: some View {
         VStack {
             ChatHeaderView(channel: $channel)
                 .frame(height: 45)
             Divider()
-            ScrollView {
-                ForEach(viewModel.savedChat) { message in
-                    ChatCell(message: message)
+            ScrollViewReader { proxy in
+                ScrollView {
+                    ForEach(viewModel.savedChat) { message in
+                        ChatCell(message: message)
+                            .id(message.chat_id)
+                    }
                 }
+                .onAppear {
+                    bottomID = viewModel.savedChat.last?.chat_id
+                    if let bottomID = bottomID {
+                        proxy.scrollTo(bottomID, anchor: .center)
+                    }
+                }
+                .scrollDismissesKeyboard(.immediately)
             }
             ChatWriteView(viewModel: viewModel, channel: $channel)
         }
         .onAppear() {
-            viewModel.checkRealm()
+            viewModel.savedChat = viewModel.chatRepository.fetch(channelName: channel.name)
+            print("저장된채팅 개수: ", viewModel.savedChat.count)
             if viewModel.savedChat.isEmpty {
                 viewModel.fetchChat(date: "", name: channel.name, id: channel.workspaceID)
             }
@@ -38,7 +51,7 @@ struct ChatView: View {
                     } else {
                         viewModel.fetchChat(date: viewModel.dateCursor, name: channel.name, id: channel.workspaceID)
                     }
-            }
+                }
             }
         }
             
@@ -137,7 +150,7 @@ struct ChatWriteView: View {
             Button(action: {
                 viewModel.sendChat(channelName: channel.name, workspaceID: channel.workspaceID) { result in
                     if result {
-                        print("채팅 보내기 성공!")
+                        viewModel.content = ""
                     }
                 }
             }, label: {

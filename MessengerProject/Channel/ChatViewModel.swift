@@ -18,10 +18,11 @@ class ChatViewModel: ObservableObject {
     @Published var savedChat: Results<ChatTable>
     @Published var dateCursor = ""
     @Published var content = ""
-    
+
     init() {
-        savedChat = chatRepository.fetch()
+        savedChat = chatRepository.fetch(channelName: "")
         setDateCursor()
+        checkRealm()
     }
     
     private var cancellables = Set<AnyCancellable>()
@@ -64,7 +65,7 @@ class ChatViewModel: ObservableObject {
                         print("send chat success - ", response.statusCode, response.data)
                         
                         self.saveToRealm(newChat: result)
-                        self.savedChat = self.chatRepository.fetch()
+                        self.savedChat = self.chatRepository.fetch(channelName: channelName)
                         completionHandler(true)
                     } catch {
                         print("send chat decoding error - ", error.localizedDescription)
@@ -97,7 +98,7 @@ class ChatViewModel: ObservableObject {
                         for data in resultData {
                             self.saveToRealm(newChat: data)
                         }
-                        self.savedChat = self.chatRepository.fetch()
+                        self.savedChat = self.chatRepository.fetch(channelName: name)
                         
                     } catch {
                         print("fetch chat decoding error - ", error)
@@ -120,8 +121,9 @@ class ChatViewModel: ObservableObject {
                 if (200..<300).contains(response.statusCode) {
                     do {
                         let resultData = try JSONDecoder().decode(UnreadMessagesResponse.self, from: response.data)
-                        print("checkunreads success - ", resultData.count-1)
-                        completionHandler(resultData.count-1)
+                        let unreads = resultData.count == 0 ? 0 : resultData.count - 1
+                        print("checkunreads success - ", unreads)
+                        completionHandler(unreads)
                     } catch {
                         print("checkunreads decoding error - ")
                         completionHandler(0)

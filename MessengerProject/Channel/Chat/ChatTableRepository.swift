@@ -10,7 +10,7 @@ import RealmSwift
 
 protocol ChatTableRepositoryType: AnyObject {
     
-    func fetch() -> Results<ChatTable>
+    func fetch(channelName: String) -> Results<ChatTable>
     func addItem(item: ChatTable)
 }
 
@@ -31,9 +31,9 @@ class ChatTableRepository: ChatTableRepositoryType {
         }
     }
     
-    func fetch() -> RealmSwift.Results<ChatTable> {
+    func fetch(channelName: String) -> RealmSwift.Results<ChatTable> {
         
-        let data = realm.objects(ChatTable.self)
+        let data = realm.objects(ChatTable.self).filter("channelName == '\(channelName)'")
         return data
     }
     
