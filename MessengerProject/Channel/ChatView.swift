@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ChatView: View {
     
+    @ObservedObject var socketViewModel = SocketViewModel()
     @ObservedObject var viewModel = ChatViewModel()
     
     @State var channel: Channel
@@ -38,6 +39,7 @@ struct ChatView: View {
             ChatWriteView(viewModel: viewModel, channel: $channel)
         }
         .onAppear() {
+            
             viewModel.savedChat = viewModel.chatRepository.fetch(channelName: channel.name)
             print("저장된채팅 개수: ", viewModel.savedChat.count)
             if viewModel.savedChat.isEmpty {
@@ -45,14 +47,12 @@ struct ChatView: View {
             }
             else { 
                 viewModel.checkUnreadMessages(id: channel.workspaceID, name: channel.name, after: viewModel.dateCursor) { result in
-                    
-                    if result == 0 {
-                        // 바로 소켓 연결
-                    } else {
+                    if result != 0 {
                         viewModel.fetchChat(date: viewModel.dateCursor, name: channel.name, id: channel.workspaceID)
                     }
                 }
             }
+            socketViewModel.connect(channelID: channel.channelID)
         }
             
     }
