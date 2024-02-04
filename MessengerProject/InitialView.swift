@@ -11,16 +11,15 @@ struct InitialView: View {
     
     @ObservedObject var viewModel = HomeViewModel()
     
-    //@State var isLogout = true
     @State var isNewUser = false
     
     var body: some View {
         
         if viewModel.isLogout {
             OnboardingView(isRootViewOnboardingView: $viewModel.isLogout, isNewUser: $isNewUser)
-//                .onAppear() {
-//                    viewModel.fetchWorkspaces()
-//                }
+                .onAppear() {
+                    viewModel.tokenRefresh()
+                }
         } else {
             HomeView(isNewUserResult: $isNewUser, isLogout: $viewModel.isLogout)
         }

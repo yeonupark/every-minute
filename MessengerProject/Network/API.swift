@@ -9,6 +9,7 @@ import Foundation
 import Moya
 
 enum MarAPI {
+    case tokenRefresh
     case emailValidation(email: String)
     case join(join: JoinModel)
     case login(login: LoginModel)
@@ -28,13 +29,15 @@ extension MarAPI: Moya.TargetType {
     
     var baseURL: URL {
         switch self {
-        case .emailValidation, .join, .login, .logout, .getWorkspaces, .getOneWorkspace, .createWorkspaces, .deleteWorkspace, .createChannel, .inviteMember, .sendChat, .checkUnreads, .getMessages:
+        case .tokenRefresh, .emailValidation, .join, .login, .logout, .getWorkspaces, .getOneWorkspace, .createWorkspaces, .deleteWorkspace, .createChannel, .inviteMember, .sendChat, .checkUnreads, .getMessages:
             return URL(string: APIkeys.baseURL)!
         }
     }
     
     var path: String {
         switch self {
+        case .tokenRefresh:
+            return "v1/auth/refresh"
         case .emailValidation:
             return "v1/users/validation/email"
         case .join:
@@ -63,7 +66,7 @@ extension MarAPI: Moya.TargetType {
         switch self {
         case .emailValidation, .join, .login, .createWorkspaces, .createChannel, .inviteMember, .sendChat:
             return .post
-        case .logout, .getWorkspaces, .getOneWorkspace, .checkUnreads, .getMessages:
+        case .tokenRefresh, .logout, .getWorkspaces, .getOneWorkspace, .checkUnreads, .getMessages:
             return .get
         case .deleteWorkspace:
             return .delete
@@ -72,6 +75,8 @@ extension MarAPI: Moya.TargetType {
     
     var task: Moya.Task {
         switch self {
+        case .tokenRefresh:
+            return .requestPlain
         case .emailValidation(let email):
             return .requestJSONEncodable(EmailModel(email: email))
         case .join(let join):
@@ -126,6 +131,10 @@ extension MarAPI: Moya.TargetType {
     
     var headers: [String : String]? {
         switch self {
+        case .tokenRefresh:
+            ["Authorization" : UserDefaults.standard.string(forKey: "token") ?? "",
+             "RefreshToken" : UserDefaults.standard.string(forKey: "refreshToken") ?? "",
+             "SesacKey" : APIkeys.sesacKey]
         case .emailValidation, .join, .login:
             ["Content-Type" : "application/json",
              "SesacKey" : APIkeys.sesacKey]

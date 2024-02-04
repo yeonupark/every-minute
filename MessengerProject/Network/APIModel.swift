@@ -13,6 +13,10 @@ struct ErrorModel: Codable, Error {
     var msg : String? = ""
 }
 
+struct RefreshTokenResponse: Decodable {
+    let accessToken: String
+}
+
 struct EmailModel: Encodable {
     let email: String
 }

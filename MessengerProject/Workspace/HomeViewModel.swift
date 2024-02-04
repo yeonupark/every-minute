@@ -104,4 +104,32 @@ class HomeViewModel: ObservableObject {
             }
         }
     }
+    
+    func tokenRefresh() {
+        
+        provider.request(.tokenRefresh) { result in
+            switch result {
+            case .success(let response):
+                if (200..<300).contains(response.statusCode) {
+                    print("refresh token success - ", response.statusCode, response.data)
+                    
+                    do {
+                        let result = try JSONDecoder().decode(RefreshTokenResponse.self, from: response.data)
+                        print("액세스 토큰 갱신")
+                        UserDefaults.standard.set(result.accessToken, forKey: "token")
+                        self.isLogout = false
+                        
+                    } catch {
+                        print("refresh token decoding error")
+                    }
+                    
+                } else if (400..<501).contains(response.statusCode) {
+                    print("refresh token failure - ", response.statusCode, response.data)
+                }
+            case .failure(let error):
+                print("refresh token Error - ", error)
+            }
+        
+        }
+    }
 }
