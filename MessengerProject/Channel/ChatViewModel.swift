@@ -22,7 +22,7 @@ class ChatViewModel: ObservableObject {
     init() {
         savedChat = chatRepository.fetch(channelName: "")
         setDateCursor()
-        checkRealm()
+        //checkRealm()
     }
     
     private var cancellables = Set<AnyCancellable>()
@@ -54,7 +54,7 @@ class ChatViewModel: ObservableObject {
     
     private let provider = MoyaProvider<MarAPI>()
     
-    func sendChat(channelName: String, workspaceID: Int, completionHandler: @escaping (Bool) -> Void) {
+    func sendChat(channelName: String, workspaceID: Int, completionHandler: @escaping (ChatResponse?) -> Void) {
         
         provider.request(.sendChat(channelName: channelName, workspaceID: workspaceID, content: content, files: [])) { result in
             switch result {
@@ -66,20 +66,20 @@ class ChatViewModel: ObservableObject {
                         
                         self.saveToRealm(newChat: result)
                         self.savedChat = self.chatRepository.fetch(channelName: channelName)
-                        completionHandler(true)
+                        completionHandler(result)
                     } catch {
                         print("send chat decoding error - ", error.localizedDescription)
-                        completionHandler(false)
+                        completionHandler(nil)
                     }
                     
                 } else if (400..<501).contains(response.statusCode) {
                     print("send chat failure - ", response.statusCode)
-                    completionHandler(false)
+                    completionHandler(nil)
                     
                 }
             case .failure(let error):
                 print("send chat Error - ", error)
-                completionHandler(false)
+                completionHandler(nil)
                 
             }
         }

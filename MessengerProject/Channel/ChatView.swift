@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ChatView: View {
     
-    @ObservedObject var socketViewModel = SocketViewModel()
     @ObservedObject var viewModel = ChatViewModel()
     
     @State var channel: Channel
@@ -39,7 +38,6 @@ struct ChatView: View {
             ChatWriteView(viewModel: viewModel, channel: $channel)
         }
         .onAppear() {
-            
             viewModel.savedChat = viewModel.chatRepository.fetch(channelName: channel.name)
             print("저장된채팅 개수: ", viewModel.savedChat.count)
             if viewModel.savedChat.isEmpty {
@@ -52,10 +50,14 @@ struct ChatView: View {
                     }
                 }
             }
-            socketViewModel.connect(channelID: channel.channelID)
+            SocketViewModel.shared.socket.connect()
+        }
+        .onDisappear() {
+            SocketViewModel.shared.socket.disconnect()
         }
             
     }
+    
 }
 
 struct ChatHeaderView: View {
@@ -149,8 +151,17 @@ struct ChatWriteView: View {
             let icon = viewModel.content.isEmpty ? Image(.chatSendIcon) : Image(.chatSendIconEnabled)
             Button(action: {
                 viewModel.sendChat(channelName: channel.name, workspaceID: channel.workspaceID) { result in
-                    if result {
+                    if result != nil {
                         viewModel.content = ""
+                        let message = [result]
+                        do {
+                            let jsonData = try JSONEncoder().encode(message)
+                            if let jsonString = String(data: jsonData, encoding: .utf8) {
+                                SocketViewModel.shared.emit(event: "channel", with: [jsonString])
+                            }
+                        } catch {
+                            print("Error encoding data to JSON: \(error)")
+                        }
                     }
                 }
             }, label: {

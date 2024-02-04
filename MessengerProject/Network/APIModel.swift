@@ -171,7 +171,7 @@ struct MemberInvite: Encodable {
     let email: String
 }
 
-struct ChatResponse: Decodable, Identifiable {
+struct ChatResponse: Codable, Identifiable {
     let channel_id: Int
     let channelName: String
     let chat_id: Int
