@@ -58,6 +58,11 @@ struct LoginResponse: Decodable {
     let refreshToken: String
 }
 
+struct KakaoLoginModel: Encodable {
+    let oauthToken: String
+    let deviceToken: String
+}
+
 struct WorkspacesResponseData: Decodable, Identifiable {
     
     let workspace_id: Int

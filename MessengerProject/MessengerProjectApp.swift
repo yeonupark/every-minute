@@ -8,6 +8,8 @@
 import SwiftUI
 import Kingfisher
 import RealmSwift
+import KakaoSDKCommon
+import KakaoSDKAuth
 
 @main
 struct MessengerProjectApp: SwiftUI.App {
@@ -25,6 +27,11 @@ struct MessengerProjectApp: SwiftUI.App {
                     registerForRemoteNotifications()
                     print("accessToken: \(UserDefaults.standard.string(forKey: "token") ?? "")")
                     //print("refreshToken: \(UserDefaults.standard.string(forKey: "refreshToken") ?? "")")
+                }
+                .onOpenURL { url in
+                    if (AuthApi.isKakaoTalkLoginUrl(url)) {
+                        _ = AuthController.handleOpenUrl(url: url)
+                    }
                 }
         }
     }
@@ -66,6 +73,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         }
         
         KingfisherManager.shared.defaultOptions = [.requestModifier(modifier)]
+        
+        KakaoSDK.initSDK(appKey: "07d0be2dced3c3a66c377d32b96f81de")
         
     }
 }

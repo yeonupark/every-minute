@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		4813F7472B5ED8BB00BC07AF /* WorkspaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4813F7462B5ED8BB00BC07AF /* WorkspaceView.swift */; };
+		484072BA2B709D8C0092FEA9 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 484072B92B709D8C0092FEA9 /* KakaoSDKAuth */; };
+		484072BC2B709D8C0092FEA9 /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 484072BB2B709D8C0092FEA9 /* KakaoSDKCommon */; };
+		484072BE2B709D8C0092FEA9 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 484072BD2B709D8C0092FEA9 /* KakaoSDKUser */; };
+		484072C02B70A0E60092FEA9 /* SocialLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484072BF2B70A0E60092FEA9 /* SocialLoginViewModel.swift */; };
 		48460C1A2B53FF0F003406E0 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48460C192B53FF0F003406E0 /* LoginView.swift */; };
 		48460C1C2B540164003406E0 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48460C1B2B540164003406E0 /* LoginViewModel.swift */; };
 		48460C202B54E93E003406E0 /* WorkspaceInitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48460C1F2B54E93E003406E0 /* WorkspaceInitialView.swift */; };
@@ -25,7 +29,6 @@
 		488040422B527710001071AE /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488040412B527710001071AE /* API.swift */; };
 		488040442B527858001071AE /* APIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488040432B527858001071AE /* APIModel.swift */; };
 		48896FE02B495D79000C371F /* MessengerProjectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48896FDF2B495D79000C371F /* MessengerProjectApp.swift */; };
-		48896FE22B495D79000C371F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48896FE12B495D79000C371F /* ContentView.swift */; };
 		48896FE42B495D7A000C371F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48896FE32B495D7A000C371F /* Assets.xcassets */; };
 		48896FE72B495D7A000C371F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48896FE62B495D7A000C371F /* Preview Assets.xcassets */; };
 		48896FF12B495D7A000C371F /* MessengerProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48896FF02B495D7A000C371F /* MessengerProjectTests.swift */; };
@@ -70,6 +73,7 @@
 
 /* Begin PBXFileReference section */
 		4813F7462B5ED8BB00BC07AF /* WorkspaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceView.swift; sourceTree = "<group>"; };
+		484072BF2B70A0E60092FEA9 /* SocialLoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginViewModel.swift; sourceTree = "<group>"; };
 		48460C192B53FF0F003406E0 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		48460C1B2B540164003406E0 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		48460C1D2B543289003406E0 /* MessengerProject.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MessengerProject.entitlements; sourceTree = "<group>"; };
@@ -87,7 +91,6 @@
 		488040452B528042001071AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		48896FDC2B495D79000C371F /* MessengerProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MessengerProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48896FDF2B495D79000C371F /* MessengerProjectApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerProjectApp.swift; sourceTree = "<group>"; };
-		48896FE12B495D79000C371F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		48896FE32B495D7A000C371F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		48896FE62B495D7A000C371F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		48896FEC2B495D7A000C371F /* MessengerProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MessengerProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,12 +120,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				484072BC2B709D8C0092FEA9 /* KakaoSDKCommon in Frameworks */,
+				484072BA2B709D8C0092FEA9 /* KakaoSDKAuth in Frameworks */,
 				48DF588A2B68228F0017600C /* RealmSwift in Frameworks */,
 				484C16CF2B60142E00AF1964 /* Kingfisher in Frameworks */,
 				48DF587E2B68075D0017600C /* SocketIO in Frameworks */,
 				488040402B52750D001071AE /* Moya in Frameworks */,
 				4880403E2B52750D001071AE /* CombineMoya in Frameworks */,
 				48DF58882B68228F0017600C /* Realm in Frameworks */,
+				484072BE2B709D8C0092FEA9 /* KakaoSDKUser in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,7 +206,6 @@
 				488970092B4AAEA9000C371F /* Join */,
 				48460C182B53FC77003406E0 /* Login */,
 				48896FDF2B495D79000C371F /* MessengerProjectApp.swift */,
-				48896FE12B495D79000C371F /* ContentView.swift */,
 				48741BB72B57AC1200E1541D /* InitialView.swift */,
 				48896FE32B495D7A000C371F /* Assets.xcassets */,
 				48896FE52B495D7A000C371F /* Preview Content */,
@@ -240,6 +245,7 @@
 				4889700A2B4AB07B000C371F /* OnboardingView.swift */,
 				488970112B4C5A48000C371F /* SignUpView.swift */,
 				48A81A282B4FD1D00004681B /* SignUpViewModel.swift */,
+				484072BF2B70A0E60092FEA9 /* SocialLoginViewModel.swift */,
 			);
 			path = Join;
 			sourceTree = "<group>";
@@ -309,6 +315,9 @@
 				48DF587D2B68075D0017600C /* SocketIO */,
 				48DF58872B68228F0017600C /* Realm */,
 				48DF58892B68228F0017600C /* RealmSwift */,
+				484072B92B709D8C0092FEA9 /* KakaoSDKAuth */,
+				484072BB2B709D8C0092FEA9 /* KakaoSDKCommon */,
+				484072BD2B709D8C0092FEA9 /* KakaoSDKUser */,
 			);
 			productName = MessengerProject;
 			productReference = 48896FDC2B495D79000C371F /* MessengerProject.app */;
@@ -387,6 +396,7 @@
 				484C16CD2B60142E00AF1964 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				48DF587C2B68075D0017600C /* XCRemoteSwiftPackageReference "socket.io-client-swift" */,
 				48DF58862B68228F0017600C /* XCRemoteSwiftPackageReference "realm-swift" */,
+				484072B82B709D8C0092FEA9 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 			);
 			productRefGroup = 48896FDD2B495D79000C371F /* Products */;
 			projectDirPath = "";
@@ -432,6 +442,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4889700B2B4AB07B000C371F /* OnboardingView.swift in Sources */,
+				484072C02B70A0E60092FEA9 /* SocialLoginViewModel.swift in Sources */,
 				48DF58902B682C360017600C /* ChatView.swift in Sources */,
 				488040442B527858001071AE /* APIModel.swift in Sources */,
 				484C16C92B5FDF6400AF1964 /* MyProfileViewModel.swift in Sources */,
@@ -450,7 +461,6 @@
 				48741BBE2B59443B00E1541D /* CreateWorkspaceView.swift in Sources */,
 				48DF58852B6822650017600C /* ChatTable.swift in Sources */,
 				48A81A2D2B4FD5730004681B /* APIKeys.swift in Sources */,
-				48896FE22B495D79000C371F /* ContentView.swift in Sources */,
 				488970102B4AB794000C371F /* Constant.swift in Sources */,
 				48A81A292B4FD1D00004681B /* SignUpViewModel.swift in Sources */,
 				48460C252B56F0D0003406E0 /* HomeViewModel.swift in Sources */,
@@ -798,6 +808,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		484072B82B709D8C0092FEA9 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.20.0;
+			};
+		};
 		484C16CD2B60142E00AF1964 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
@@ -833,6 +851,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		484072B92B709D8C0092FEA9 /* KakaoSDKAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 484072B82B709D8C0092FEA9 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKAuth;
+		};
+		484072BB2B709D8C0092FEA9 /* KakaoSDKCommon */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 484072B82B709D8C0092FEA9 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKCommon;
+		};
+		484072BD2B709D8C0092FEA9 /* KakaoSDKUser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 484072B82B709D8C0092FEA9 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKUser;
+		};
 		484C16CE2B60142E00AF1964 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 484C16CD2B60142E00AF1964 /* XCRemoteSwiftPackageReference "Kingfisher" */;

@@ -13,6 +13,7 @@ enum MarAPI {
     case emailValidation(email: String)
     case join(join: JoinModel)
     case login(login: LoginModel)
+    case kakaoLogin(model: KakaoLoginModel)
     case logout
     case getWorkspaces
     case getOneWorkspace(id: Int)
@@ -29,7 +30,7 @@ extension MarAPI: Moya.TargetType {
     
     var baseURL: URL {
         switch self {
-        case .tokenRefresh, .emailValidation, .join, .login, .logout, .getWorkspaces, .getOneWorkspace, .createWorkspaces, .deleteWorkspace, .createChannel, .inviteMember, .sendChat, .checkUnreads, .getMessages:
+        case .tokenRefresh, .emailValidation, .join, .login, .kakaoLogin, .logout, .getWorkspaces, .getOneWorkspace, .createWorkspaces, .deleteWorkspace, .createChannel, .inviteMember, .sendChat, .checkUnreads, .getMessages:
             return URL(string: APIkeys.baseURL)!
         }
     }
@@ -44,6 +45,8 @@ extension MarAPI: Moya.TargetType {
             return "v1/users/join"
         case .login:
             return "v1/users/login"
+        case .kakaoLogin:
+            return "v1/users/login/kakao"
         case .logout:
             return "v1/users/logout"
         case .getWorkspaces, .createWorkspaces:
@@ -64,7 +67,7 @@ extension MarAPI: Moya.TargetType {
     
     var method: Moya.Method {
         switch self {
-        case .emailValidation, .join, .login, .createWorkspaces, .createChannel, .inviteMember, .sendChat:
+        case .emailValidation, .join, .login, .kakaoLogin, .createWorkspaces, .createChannel, .inviteMember, .sendChat:
             return .post
         case .tokenRefresh, .logout, .getWorkspaces, .getOneWorkspace, .checkUnreads, .getMessages:
             return .get
@@ -83,6 +86,8 @@ extension MarAPI: Moya.TargetType {
             return .requestJSONEncodable(join)
         case .login(let login):
             return .requestJSONEncodable(login)
+        case .kakaoLogin(let model):
+            return .requestJSONEncodable(model)
         case .logout:
             return .requestPlain
         case .getWorkspaces, .getOneWorkspace:
@@ -135,7 +140,7 @@ extension MarAPI: Moya.TargetType {
             ["Authorization" : UserDefaults.standard.string(forKey: "token") ?? "",
              "RefreshToken" : UserDefaults.standard.string(forKey: "refreshToken") ?? "",
              "SesacKey" : APIkeys.sesacKey]
-        case .emailValidation, .join, .login:
+        case .emailValidation, .join, .login, .kakaoLogin:
             ["Content-Type" : "application/json",
              "SesacKey" : APIkeys.sesacKey]
         case .logout, .getWorkspaces, .getOneWorkspace, .deleteWorkspace, .createChannel, .inviteMember, .checkUnreads, .getMessages:

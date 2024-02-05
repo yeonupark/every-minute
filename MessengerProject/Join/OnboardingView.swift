@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import KakaoSDKUser
 
 struct OnboardingView: View {
     
@@ -54,7 +55,7 @@ struct OnboardingView: View {
                         SignUpView(isRootViewOnboardingView: $isRootViewOnboardingView, isNewUser: $isNewUser, isShowingBottomSheet: $isShowingBottomSheet)
                             .presentationDragIndicator(.visible)
                     } else {
-                        loginSelectionView(isShowingSignUpView: $isShowingSignUpView, isShowingLoginView: $isShowingLoginView)
+                        loginSelectionView(isRootViewOnboardingView: $isRootViewOnboardingView, isNewUser: $isNewUser, isShowingSignUpView: $isShowingSignUpView, isShowingLoginView: $isShowingLoginView)
                             .presentationCornerRadius(20)
                             .presentationDetents([.height(290)])
                             .presentationDragIndicator(.visible)
@@ -67,6 +68,11 @@ struct OnboardingView: View {
 }
 
 struct loginSelectionView: View {
+    
+    @ObservedObject var viewModel = KakaoLoginViewModel()
+    
+    @Binding var isRootViewOnboardingView: Bool
+    @Binding var isNewUser: Bool
     
     @Binding var isShowingSignUpView: Bool
     @Binding var isShowingLoginView: Bool
@@ -84,7 +90,21 @@ struct loginSelectionView: View {
             })
             
             Button(action: {
-                print("카카오로그인")
+                if (UserApi.isKakaoTalkLoginAvailable()) {
+                    
+                    UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
+                        print("카카오로그인 성공 !")
+                        if let token = oauthToken {
+                            viewModel.kakaoLogin(token: token.accessToken) { result in
+                                if result {
+                                    isRootViewOnboardingView = false
+                                    isNewUser = false
+                                }
+                            }
+                        }
+                    }
+                    
+                }
             }, label: {
                 LoginButtonImage(buttonImage: Image(.kakaoLogin), topPadding: 12)
             })
@@ -124,7 +144,3 @@ struct LoginButtonImage: View {
             .padding(EdgeInsets(top: topPadding, leading: 16, bottom: 0, trailing: 16))
     }
 }
-
-//#Preview {
-//    OnboardingView()
-//}
