@@ -63,6 +63,12 @@ struct KakaoLoginModel: Encodable {
     let deviceToken: String
 }
 
+struct AppleLoginModel: Encodable {
+    let idToken: String
+    let nickname: String
+    let deviceToken: String
+}
+
 struct WorkspacesResponseData: Decodable, Identifiable {
     
     let workspace_id: Int

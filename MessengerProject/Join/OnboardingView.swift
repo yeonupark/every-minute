@@ -7,6 +7,7 @@
 
 import SwiftUI
 import KakaoSDKUser
+import AuthenticationServices
 
 struct OnboardingView: View {
     
@@ -69,7 +70,7 @@ struct OnboardingView: View {
 
 struct loginSelectionView: View {
     
-    @ObservedObject var viewModel = KakaoLoginViewModel()
+    @ObservedObject var viewModel = SocialLoginViewModel()
     
     @Binding var isRootViewOnboardingView: Bool
     @Binding var isNewUser: Bool
@@ -82,12 +83,39 @@ struct loginSelectionView: View {
         ColorSet.Brand.white
         
         VStack {
-            
-            Button(action: {
-                print("애플로그인")
-            }, label: {
-                LoginButtonImage(buttonImage: Image(.appleLogin), topPadding: 42)
-            })
+            SignInWithAppleButton { request in
+                request.requestedScopes = [.email, .fullName]
+            } onCompletion: { result in
+                switch result {
+                case .success(let authResults):
+                    print("Apple Login Successful")
+                    switch authResults.credential{
+                    case let appleIDCredential as ASAuthorizationAppleIDCredential:
+                        
+                        let fullName = appleIDCredential.fullName
+                        let name =  (fullName?.givenName ?? "") + (fullName?.familyName ?? "")
+                        let idToken = String(data: appleIDCredential.identityToken!, encoding: .utf8)
+                        
+                        viewModel.appleLogin(token: idToken ?? "", nickname: name) { result in
+                            if result {
+                                isRootViewOnboardingView = false
+                                isNewUser = false
+                            }
+                        }
+                    default:
+                        break
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    print("error")
+                }
+            }
+            .signInWithAppleButtonStyle(.white)
+            .overlay(alignment: .center) {
+                LoginButtonImage(buttonImage: Image(.appleLogin), topPadding: 0)
+            }
+            .frame(width: 323, height: 44)
+            .padding(.top, 42)
             
             Button(action: {
                 if (UserApi.isKakaoTalkLoginAvailable()) {
