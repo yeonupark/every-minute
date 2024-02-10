@@ -44,11 +44,11 @@ class ChatViewModel: ObservableObject {
         //print("저장된 채팅: ", savedChat)
     }
     
-    func saveToRealm(newChat: ChatResponse) {
+    func saveToRealm(workspaceID: Int, newChat: ChatResponse) {
         let filesList = List<String?>()
         filesList.append(objectsIn: newChat.files)
-        let userTable = UserTable(user_id: newChat.user.userID, email: newChat.user.email, nickname: newChat.user.nickname)
-        let chatTable = ChatTable(channel_id: newChat.channel_id, channelName: newChat.channelName, chat_id: newChat.chat_id, content: newChat.content, createdAt: newChat.createdAt, files: filesList, user: userTable)
+        let userTable = UserTable(user_id: newChat.user.userID, email: newChat.user.email, nickname: newChat.user.nickname, profileImage: newChat.user.profileImage)
+        let chatTable = ChatTable(workspace_id: workspaceID, channelName: newChat.channelName, chat_id: newChat.chat_id, content: newChat.content, createdAt: newChat.createdAt, files: filesList, user: userTable)
         chatRepository.addItem(item: chatTable)
     }
     
@@ -64,7 +64,7 @@ class ChatViewModel: ObservableObject {
                         let result = try JSONDecoder().decode(ChatResponse.self, from: response.data)
                         print("send chat success - ", response.statusCode, response.data)
                         
-                        self.saveToRealm(newChat: result)
+                        self.saveToRealm(workspaceID: workspaceID, newChat: result)
                         self.savedChat = self.chatRepository.fetch(channelName: channelName)
                         completionHandler(result)
                     } catch {
@@ -96,7 +96,7 @@ class ChatViewModel: ObservableObject {
                         print("fetch chat success - ", response.statusCode, response.data)
                     
                         for data in resultData {
-                            self.saveToRealm(newChat: data)
+                            self.saveToRealm(workspaceID: id, newChat: data)
                         }
                         self.savedChat = self.chatRepository.fetch(channelName: name)
                         
@@ -121,7 +121,7 @@ class ChatViewModel: ObservableObject {
                 if (200..<300).contains(response.statusCode) {
                     do {
                         let resultData = try JSONDecoder().decode(UnreadMessagesResponse.self, from: response.data)
-                        let unreads = resultData.count == 0 ? 0 : resultData.count - 1
+                        let unreads = resultData.count
                         print("checkunreads success - ", unreads)
                         completionHandler(unreads)
                     } catch {
@@ -130,8 +130,14 @@ class ChatViewModel: ObservableObject {
                     }
                     
                 } else if (400..<501).contains(response.statusCode) {
-                    print("checkunreads failure - ", response.statusCode)
-                    completionHandler(0)
+                    do {
+                        let errorResponse = try JSONDecoder().decode(ErrorMessage.self, from: response.data)
+                        print("checkunreads failure - ", response.statusCode, errorResponse.errorCode)
+                        completionHandler(0)
+                    } catch {
+                        print("checkunreads decoding error - ")
+                        completionHandler(0)
+                    }
                 }
             case .failure(let error):
                 print("checkunreads chat Error - ", error)

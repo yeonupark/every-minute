@@ -25,7 +25,7 @@ struct OnboardingView: View {
                 .ignoresSafeArea()
             VStack(alignment: .center) {
                 
-                Text("새싹톡을 사용하면 어디서나 \n팀을 모을 수 있습니다")
+                Text("마르톡을 사용하여 간편하게 \n팀원들과 소통해보세요!")
                     .multilineTextAlignment(.center)
                     .fontWithLineHeight(font: Typography.title1.font, lineHeight: Typography.title1.lineHeight)
                     .frame(width: 345, height: 60, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)

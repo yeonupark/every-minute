@@ -49,7 +49,7 @@ struct MessengerProjectApp: SwiftUI.App {
         }
     
     func configureRealm() {
-        let config = Realm.Configuration(schemaVersion: 10) { migration, oldSchemaVersion in
+        let config = Realm.Configuration(schemaVersion: 11) { migration, oldSchemaVersion in
             
             if oldSchemaVersion < 1 { } // UserTable에 id 추가
             

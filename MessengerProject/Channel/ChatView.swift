@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct ChatView: View {
     
@@ -77,7 +78,7 @@ struct ChatHeaderView: View {
             Spacer()
             Text("# \(channel.name)")
                 .font(.headline)
-            Text("14")
+            Text("5")
                 .foregroundColor(ColorSet.Text.secondary)
             Spacer()
             Image(.chatSetting)
@@ -103,10 +104,18 @@ struct ChatCell: View {
     
     var body: some View {
         HStack(alignment: .top) {
-            Image(.noPhotoIcon)
+            let thumbnailString = message.user?.profileImage == nil ? "https://image.blip.kr/v1/file/b2595c70f5f7ffc48bec83400d0ecdcd" : "\(APIkeys.baseURL)v1\(message.user!.profileImage!)"
+            KFImage(URL(string: thumbnailString))
+                .placeholder {
+                    ProgressView()
+                }
+                .onFailure { error in
+                    print("이미지 로딩 실패 ㅠㅠ: \(error)")
+                }
                 .resizable()
-                .frame(width: 34, height: 34)
-                .cornerRadius(8)
+                .cornerRadius(4)
+                .frame(width: 24, height: 24)
+                .padding(.trailing, 3)
             VStack(alignment: .leading) {
                 Text(message.user?.nickname ?? "")
                     .fontWithLineHeight(font: Typography.bodyBold.font, lineHeight: Typography.bodyBold.lineHeight)

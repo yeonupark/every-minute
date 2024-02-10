@@ -12,7 +12,7 @@ class ChatTable: Object, Identifiable {
     
     @Persisted(primaryKey: true) var _id: ObjectId
     
-    @Persisted var channel_id: Int
+    @Persisted var workspace_id: Int
     @Persisted var channelName: String
     @Persisted var chat_id: Int
     @Persisted var content: String?
@@ -20,11 +20,11 @@ class ChatTable: Object, Identifiable {
     @Persisted var files: List<String?>
     @Persisted var user: UserTable?
     
-    convenience init(channel_id: Int, channelName: String, chat_id: Int, content: String? = nil, createdAt: String, files: List<String?>, user: UserTable) {
+    convenience init(workspace_id: Int, channelName: String, chat_id: Int, content: String? = nil, createdAt: String, files: List<String?>, user: UserTable) {
         
         self.init()
         
-        self.channel_id = channel_id
+        self.workspace_id = workspace_id
         self.channelName = channelName
         self.chat_id = chat_id
         self.content = content

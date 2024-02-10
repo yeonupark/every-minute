@@ -77,9 +77,6 @@ struct HomeInitialView: View {
         .sheet(isPresented: $isShowingInviteMemberView, content: {
             MemberInviteView(homeViewModel: viewModel, isShowingMemberInviteView: $isShowingInviteMemberView)
         })
-//        .onAppear() {
-//            print(viewModel.currentWorkspace)
-//        }
     }
 }
 
@@ -104,7 +101,14 @@ struct DMCell: View {
     
     var body: some View {
         HStack {
-            KFImage(URL(string: "https://image.blip.kr/v1/file/b2595c70f5f7ffc48bec83400d0ecdcd"))
+            let thumbnailString = user.profileImage == nil ? "https://image.blip.kr/v1/file/b2595c70f5f7ffc48bec83400d0ecdcd" : "\(APIkeys.baseURL)v1\(user.profileImage!)"
+            KFImage(URL(string: thumbnailString))
+                .placeholder {
+                    ProgressView()
+                }
+                .onFailure { error in
+                    print("이미지 로딩 실패 ㅠㅠ: \(error)")
+                }
                 .resizable()
                 .cornerRadius(4)
                 .frame(width: 24, height: 24)
@@ -112,7 +116,5 @@ struct DMCell: View {
             Text(user.nickname)
             Spacer()
         }
-        //.frame(height: 41)
-    
     }
 }
