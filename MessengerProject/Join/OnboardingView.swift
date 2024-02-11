@@ -25,7 +25,7 @@ struct OnboardingView: View {
                 .ignoresSafeArea()
             VStack(alignment: .center) {
                 
-                Text("마르톡을 사용하여 간편하게 \n팀원들과 소통해보세요!")
+                Text("에브리미닛을 사용하여 간편하게 \n팀원들과 소통해보세요! 👨‍💻👩‍💻")
                     .multilineTextAlignment(.center)
                     .fontWithLineHeight(font: Typography.title1.font, lineHeight: Typography.title1.lineHeight)
                     .frame(width: 345, height: 60, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
@@ -150,7 +150,7 @@ struct loginSelectionView: View {
                     isShowingSignUpView = true
                 }, label: {
                     Text("새롭게 회원가입 하기")
-                        .foregroundColor(ColorSet.Brand.green)
+                        .foregroundColor(ColorSet.Brand.orange)
                 })
                 
             }

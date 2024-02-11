@@ -100,7 +100,7 @@ struct HeaderView: View {
                     }
                 }
             Spacer()
-            KFImage(URL(string: "https://image.blip.kr/v1/file/b2595c70f5f7ffc48bec83400d0ecdcd"))
+            KFImage(URL(string: "https://www.incheonin.com/news/photo/202109/82285_111225_2953.jpg"))
                 .resizable()
                 .cornerRadius(16)
                 .frame(width: 32, height: 32)

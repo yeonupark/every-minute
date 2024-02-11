@@ -11,6 +11,7 @@ import SwiftUI
 enum ColorSet {
     
     enum Brand {
+        static let orange = Color("Orange")
         static let green = Color("Green")
         static let error = Color("Error")
         static let inactive = Color("Inactive")
