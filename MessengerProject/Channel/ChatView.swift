@@ -39,19 +39,21 @@ struct ChatView: View {
             ChatWriteView(viewModel: viewModel, channel: $channel)
         }
         .onAppear() {
-            viewModel.savedChat = viewModel.chatRepository.fetch(channelName: channel.name)
-            print("저장된채팅 개수: ", viewModel.savedChat.count)
-            if viewModel.savedChat.isEmpty {
-                viewModel.fetchChat(date: "", name: channel.name, id: channel.workspaceID)
-            }
-            else { 
-                viewModel.checkUnreadMessages(id: channel.workspaceID, name: channel.name, after: viewModel.dateCursor) { result in
-                    if result != 0 {
-                        viewModel.fetchChat(date: viewModel.dateCursor, name: channel.name, id: channel.workspaceID)
+            DispatchQueue.main.async {
+                viewModel.savedChat = viewModel.chatRepository.fetch(channelName: channel.name)
+                print("저장된채팅 개수: ", viewModel.savedChat.count)
+                if viewModel.savedChat.isEmpty {
+                    viewModel.fetchChat(date: "", name: channel.name, id: channel.workspaceID)
+                }
+                else { 
+                    viewModel.checkUnreadMessages(id: channel.workspaceID, name: channel.name, after: viewModel.dateCursor) { result in
+                        if result != 0 {
+                            viewModel.fetchChat(date: viewModel.dateCursor, name: channel.name, id: channel.workspaceID)
+                        }
                     }
                 }
+                SocketViewModel.shared.socket.connect()
             }
-            SocketViewModel.shared.socket.connect()
         }
         .onDisappear() {
             SocketViewModel.shared.socket.disconnect()

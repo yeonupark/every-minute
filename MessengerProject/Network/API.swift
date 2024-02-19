@@ -10,6 +10,7 @@ import Moya
 
 enum MarAPI {
     case tokenRefresh
+    case deviceToken(deviceToken: String)
     case emailValidation(email: String)
     case join(join: JoinModel)
     case login(login: LoginModel)
@@ -31,7 +32,7 @@ extension MarAPI: Moya.TargetType {
     
     var baseURL: URL {
         switch self {
-        case .tokenRefresh, .emailValidation, .join, .login, .kakaoLogin, .appleLogin, .logout, .getWorkspaces, .getOneWorkspace, .createWorkspaces, .deleteWorkspace, .createChannel, .inviteMember, .sendChat, .checkUnreads, .getMessages:
+        case .tokenRefresh, .deviceToken, .emailValidation, .join, .login, .kakaoLogin, .appleLogin, .logout, .getWorkspaces, .getOneWorkspace, .createWorkspaces, .deleteWorkspace, .createChannel, .inviteMember, .sendChat, .checkUnreads, .getMessages:
             return URL(string: APIkeys.baseURL)!
         }
     }
@@ -40,6 +41,8 @@ extension MarAPI: Moya.TargetType {
         switch self {
         case .tokenRefresh:
             return "v1/auth/refresh"
+        case .deviceToken:
+            return "v1/users/deviceToken"
         case .emailValidation:
             return "v1/users/validation/email"
         case .join:
@@ -70,7 +73,7 @@ extension MarAPI: Moya.TargetType {
     
     var method: Moya.Method {
         switch self {
-        case .emailValidation, .join, .login, .kakaoLogin, .appleLogin, .createWorkspaces, .createChannel, .inviteMember, .sendChat:
+        case .emailValidation, .deviceToken, .join, .login, .kakaoLogin, .appleLogin, .createWorkspaces, .createChannel, .inviteMember, .sendChat:
             return .post
         case .tokenRefresh, .logout, .getWorkspaces, .getOneWorkspace, .checkUnreads, .getMessages:
             return .get
@@ -83,6 +86,8 @@ extension MarAPI: Moya.TargetType {
         switch self {
         case .tokenRefresh:
             return .requestPlain
+        case .deviceToken(let deviceToken):
+            return .requestJSONEncodable(DeviceToken(deviceToken: deviceToken))
         case .emailValidation(let email):
             return .requestJSONEncodable(EmailModel(email: email))
         case .join(let join):
@@ -148,7 +153,7 @@ extension MarAPI: Moya.TargetType {
         case .emailValidation, .join, .login, .kakaoLogin, .appleLogin:
             ["Content-Type" : "application/json",
              "SesacKey" : APIkeys.sesacKey]
-        case .logout, .getWorkspaces, .getOneWorkspace, .deleteWorkspace, .createChannel, .inviteMember, .checkUnreads, .getMessages:
+        case .deviceToken, .logout, .getWorkspaces, .getOneWorkspace, .deleteWorkspace, .createChannel, .inviteMember, .checkUnreads, .getMessages:
             ["Authorization" : UserDefaults.standard.string(forKey: "token") ?? "",
              "SesacKey" : APIkeys.sesacKey]
         case .createWorkspaces, .sendChat:

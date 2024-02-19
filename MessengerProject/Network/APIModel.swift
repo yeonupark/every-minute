@@ -17,6 +17,10 @@ struct RefreshTokenResponse: Decodable {
     let accessToken: String
 }
 
+struct DeviceToken: Encodable {
+    let deviceToken: String
+}
+
 struct EmailModel: Encodable {
     let email: String
 }
