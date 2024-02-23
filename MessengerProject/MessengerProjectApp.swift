@@ -19,7 +19,6 @@ struct MessengerProjectApp: SwiftUI.App {
     
     init() {
         configureRealm()
-        saveDeviceToken()
     }
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
@@ -47,26 +46,6 @@ struct MessengerProjectApp: SwiftUI.App {
         Realm.Configuration.defaultConfiguration = config
     }
     
-    func saveDeviceToken() {
-        let token = UserDefaults.standard.string(forKey: "deviceToken")
-        
-        let provider = MoyaProvider<MarAPI>()
-        
-        provider.request(.deviceToken(deviceToken: token ?? "")) { result in
-            switch result {
-            case .success(let response):
-                if (200..<300).contains(response.statusCode) {
-                    print("하하하하 devideToken success - ", response.statusCode, response.data)
-                    
-                } else if (400..<501).contains(response.statusCode) {
-                    print("devideToken failure - ", response.statusCode, response.data)
-                    
-                }
-            case .failure(let error):
-                print("devideToken Error - ", error)
-            }
-        }
-    }
 }
 
 class AppDelegate: NSObject, UIApplicationDelegate {
@@ -102,28 +81,29 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
         Messaging.messaging().delegate = self
         
-//        Messaging.messaging().token { token, error in
-//          if let error = error {
-//            print("Error fetching FCM registration token: \(error)")
-//          } else if let token = token {
-//            print("FCM registration token: \(token)")
-//            //self.fcmRegTokenMessage.text  = "Remote FCM registration token: \(token)"
-//          }
-//        }
+        Messaging.messaging().token { token, error in
+          if let error = error {
+            print("Error fetching FCM registration token: \(error)")
+          } else if let token = token {
+            print("FCM registration token: \(token)")
+            //self.fcmRegTokenMessage.text  = "Remote FCM registration token: \(token)"
+            UserDefaults.standard.set(token, forKey: "deviceToken")
+          }
+        }
         UNUserNotificationCenter.current().delegate = self
         
         return true
     }
     
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        
-        Messaging.messaging().apnsToken = deviceToken
-        
-        let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
-        print("Device Token: \(token)")
-        UserDefaults.standard.set(token, forKey: "deviceToken")
-        
-    }
+//    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+//        
+//        Messaging.messaging().apnsToken = deviceToken
+//        
+//        let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+//        print("Device Token: \(token)")
+//        UserDefaults.standard.set(token, forKey: "deviceToken")
+//        
+//    }
 
 }
 

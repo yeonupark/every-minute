@@ -164,15 +164,20 @@ struct ChatWriteView: View {
                 viewModel.sendChat(channelName: channel.name, workspaceID: channel.workspaceID) { result in
                     if result != nil {
                         viewModel.content = ""
-                        let message = [result]
-                        do {
-                            let jsonData = try JSONEncoder().encode(message)
-                            if let jsonString = String(data: jsonData, encoding: .utf8) {
-                                SocketViewModel.shared.emit(event: "channel", with: [jsonString])
-                            }
-                        } catch {
-                            print("Error encoding data to JSON: \(error)")
-                        }
+                        let userData = ["user_id" : result?.user.userID ?? "", "email" : result?.user.email ?? "", "nickname" : result?.user.nickname ?? "", "profileImage" : result?.user.profileImage ?? ""] as [String : Any]
+                        
+                        let dataArr = ["channelName" : result?.channelName ?? "", "createdAt" : result?.createdAt ?? "", "channel_id" : result?.channel_id ?? "", "chat_id" : result?.chat_id ?? "", "content" : result?.content ?? "ㅎㅇ", "files" : [], "user" : userData] as [String : Any]
+                        SocketViewModel.shared.emit(with: dataArr)
+                        //let message = [result]
+//                        do {
+//                            let jsonData = try JSONEncoder().encode(message)
+//                            if let jsonString = String(data: jsonData, encoding: .utf8) {
+//                                let dataArr = ["channelName" : result?.channelName, "createdAt" : result?.createdAt, "channel_id" : result?.channel_id, "chat_id" : result?.chat_id] as [String : Any]
+//                                SocketViewModel.shared.emit(with: dataArr)
+//                            }
+//                        } catch {
+//                            print("Error encoding data to JSON: \(error)")
+//                        }
                     }
                 }
             }, label: {

@@ -132,4 +132,25 @@ class HomeViewModel: ObservableObject {
         
         }
     }
+    
+    func saveDeviceToken() {
+        let token = UserDefaults.standard.string(forKey: "deviceToken")
+        
+        let provider = MoyaProvider<MarAPI>()
+        
+        provider.request(.deviceToken(deviceToken: token ?? "")) { result in
+            switch result {
+            case .success(let response):
+                if (200..<300).contains(response.statusCode) {
+                    print("하하하하 deviceToken success - ", response.statusCode, response.data)
+                    
+                } else if (400..<501).contains(response.statusCode) {
+                    print("deviceToken failure - ", response.statusCode, response.data)
+                    
+                }
+            case .failure(let error):
+                print("deviceToken Error - ", error)
+            }
+        }
+    }
 }

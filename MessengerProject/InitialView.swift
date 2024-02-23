@@ -22,6 +22,9 @@ struct InitialView: View {
                 }
         } else {
             HomeView(isNewUserResult: $isNewUser, isLogout: $viewModel.isLogout)
+                .onAppear() {
+                    viewModel.saveDeviceToken()
+                }
         }
     }
 }

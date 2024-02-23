@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4813F7472B5ED8BB00BC07AF /* WorkspaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4813F7462B5ED8BB00BC07AF /* WorkspaceView.swift */; };
+		482D8D982B887825006B3F72 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 482D8D972B887825006B3F72 /* GoogleService-Info.plist */; };
 		484072BA2B709D8C0092FEA9 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 484072B92B709D8C0092FEA9 /* KakaoSDKAuth */; };
 		484072BC2B709D8C0092FEA9 /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 484072BB2B709D8C0092FEA9 /* KakaoSDKCommon */; };
 		484072BE2B709D8C0092FEA9 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 484072BD2B709D8C0092FEA9 /* KakaoSDKUser */; };
@@ -52,7 +53,6 @@
 		48DF588C2B682A910017600C /* ChatTableRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DF588B2B682A910017600C /* ChatTableRepository.swift */; };
 		48DF58902B682C360017600C /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DF588F2B682C360017600C /* ChatView.swift */; };
 		48DF58922B682C810017600C /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DF58912B682C810017600C /* ChatViewModel.swift */; };
-		48F698A52B83565B00EF5201 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 48F698A42B83565B00EF5201 /* GoogleService-Info.plist */; };
 		48F698A82B83580800EF5201 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 48F698A72B83580800EF5201 /* FirebaseAnalytics */; };
 		48F698AA2B83580800EF5201 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 48F698A92B83580800EF5201 /* FirebaseAuth */; };
 		48F698AC2B83580800EF5201 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 48F698AB2B83580800EF5201 /* FirebaseMessaging */; };
@@ -77,6 +77,8 @@
 
 /* Begin PBXFileReference section */
 		4813F7462B5ED8BB00BC07AF /* WorkspaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceView.swift; sourceTree = "<group>"; };
+		482D8D972B887825006B3F72 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		482D8D992B8878F1006B3F72 /* SeSACTalkSLP.mobileprovision */ = {isa = PBXFileReference; lastKnownFileType = file; path = SeSACTalkSLP.mobileprovision; sourceTree = "<group>"; };
 		484072BF2B70A0E60092FEA9 /* SocialLoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginViewModel.swift; sourceTree = "<group>"; };
 		48460C192B53FF0F003406E0 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		48460C1B2B540164003406E0 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -117,7 +119,6 @@
 		48DF588B2B682A910017600C /* ChatTableRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableRepository.swift; sourceTree = "<group>"; };
 		48DF588F2B682C360017600C /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		48DF58912B682C810017600C /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
-		48F698A42B83565B00EF5201 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,7 +210,6 @@
 				48460C1E2B54E921003406E0 /* Workspace */,
 				48460C1D2B543289003406E0 /* MessengerProject.entitlements */,
 				488040452B528042001071AE /* Info.plist */,
-				48F698A42B83565B00EF5201 /* GoogleService-Info.plist */,
 				48A81A2E2B4FD7780004681B /* Network */,
 				4889700C2B4AB6B7000C371F /* Base */,
 				488970092B4AAEA9000C371F /* Join */,
@@ -219,6 +219,8 @@
 				48896FE32B495D7A000C371F /* Assets.xcassets */,
 				48896FE52B495D7A000C371F /* Preview Content */,
 				48A81A2A2B4FD52E0004681B /* .gitignore */,
+				482D8D972B887825006B3F72 /* GoogleService-Info.plist */,
+				482D8D992B8878F1006B3F72 /* SeSACTalkSLP.mobileprovision */,
 			);
 			path = MessengerProject;
 			sourceTree = "<group>";
@@ -427,8 +429,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				48F698A52B83565B00EF5201 /* GoogleService-Info.plist in Resources */,
 				48896FE72B495D7A000C371F /* Preview Assets.xcassets in Resources */,
+				482D8D982B887825006B3F72 /* GoogleService-Info.plist in Resources */,
 				48A81A2B2B4FD52E0004681B /* .gitignore in Resources */,
 				48896FE42B495D7A000C371F /* Assets.xcassets in Resources */,
 			);
@@ -646,10 +648,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = MessengerProject/MessengerProject.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MessengerProject/Preview Content\"";
-				DEVELOPMENT_TEAM = A8NKCBCXX2;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MessengerProject/Info.plist;
@@ -664,8 +666,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.marpark.MessengerProject;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sesac.SeSACTalkSLP;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -678,10 +681,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = MessengerProject/MessengerProject.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MessengerProject/Preview Content\"";
-				DEVELOPMENT_TEAM = A8NKCBCXX2;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MessengerProject/Info.plist;
@@ -696,8 +699,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.marpark.MessengerProject;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sesac.SeSACTalkSLP;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
