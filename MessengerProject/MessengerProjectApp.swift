@@ -49,9 +49,18 @@ struct MessengerProjectApp: SwiftUI.App {
 }
 
 class AppDelegate: NSObject, UIApplicationDelegate {
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        
+        print("==== APNS 토큰 설정됨 ====")
+        Messaging.messaging().apnsToken = deviceToken
+        
+    }
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
         FirebaseApp.configure()
+        Messaging.messaging().delegate = self
         
         let modifier = AnyModifier { request in
             var r = request
@@ -78,32 +87,21 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         }
                 
         application.registerForRemoteNotifications()
-
-        Messaging.messaging().delegate = self
         
-        Messaging.messaging().token { token, error in
-          if let error = error {
-            print("Error fetching FCM registration token: \(error)")
-          } else if let token = token {
-            print("FCM registration token: \(token)")
-            //self.fcmRegTokenMessage.text  = "Remote FCM registration token: \(token)"
-            UserDefaults.standard.set(token, forKey: "deviceToken")
-          }
-        }
+//        Messaging.messaging().token { token, error in
+//          if let error = error {
+//            print("Error fetching FCM registration token: \(error)")
+//          } else if let token = token {
+//            print("FCM registration token: \(token)")
+//              print("호호호")
+//            //self.fcmRegTokenMessage.text  = "Remote FCM registration token: \(token)"
+//            //UserDefaults.standard.set(token, forKey: "deviceToken")
+//          }
+//        }
         UNUserNotificationCenter.current().delegate = self
         
         return true
     }
-    
-//    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-//        
-//        Messaging.messaging().apnsToken = deviceToken
-//        
-//        let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
-//        print("Device Token: \(token)")
-//        UserDefaults.standard.set(token, forKey: "deviceToken")
-//        
-//    }
 
 }
 
@@ -137,11 +135,10 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 extension AppDelegate: MessagingDelegate {
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        print("토큰 받음 - Firebase registration token: \(String(describing: fcmToken))")
+        //print("토큰 받음 - Firebase registration token: \(String(describing: fcmToken))")
         
-        let dataDict: [String: String] = ["token": fcmToken ?? ""]
-        
-        print(dataDict)
+        print("==== fcm 토큰 설정됨 ====")
+        UserDefaults.standard.set(fcmToken, forKey: "deviceToken")
     }
     
 }
