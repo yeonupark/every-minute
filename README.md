@@ -17,12 +17,15 @@
 ## 기술 스택 및 라이브러리
 - SwiftUI, PhotosUI
 - Combine
+- AuthenticationServices
 - MVVM, Repository
 - Moya
 - SocketIO
+- APNS
 - Realm
-- Kingfisher
 - UserDefaults, Extension, Protocol, Closure, Codable, UUID
+- Firebase Cloud Messaging
+- KakaoSDKUser
 
 ## 고민한 지점
 - 커스텀 폰트를 적용할 때, 폰트의 line height를 직접 지정하는 기능이 제공되지 않음
